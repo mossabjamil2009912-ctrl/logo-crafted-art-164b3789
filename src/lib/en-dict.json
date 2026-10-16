@@ -5153,5 +5153,6 @@
  "🔔 *عميل جديد عبر تطبيق ARSH ENGINEERING*": "🔔 *New customer via the ARSH ENGINEERING app*",
  "🧾 الرقم الجديد:": "🧾 New number:",
  "🧾 رقم الحوالة:": "🧾 Transfer number:",
- "🧾 رقم الفاتورة:": "🧾 Invoice number:"
+ "🧾 رقم الفاتورة:": "🧾 Invoice number:",
+ "هبوط الجهد محسوب على أطوال تصميمية نمطية (نحاس 0.0175 Ω·mm²/م) ويُراجع بعد المسح الموقعي؛ الحد المقبول 3%.": "Voltage drop is calculated on typical design lengths (copper 0.0175 Ω·mm²/m) and reviewed after the site survey; the accepted limit is 3%."
 }
