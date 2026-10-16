@@ -818,10 +818,6 @@ const invSpec = (kw: string, phase: string, pv: string, mppt: string, chg: strin
   description: `انفرتر دايا هايبرد ${kw} كيلو ${phase} — دخل ألواح حتى ${pv}، ${mppt} MPPT، شحن ${chg}.`,
   specs: [{ title: "المواصفات المعتمدة", rows: [["القدرة", `${kw} kW`], ["الطور", phase], ["أقصى دخل ألواح", pv], ["عدد MPPT", mppt], ["أقصى تيار شحن/تفريغ", chg], ...extra] }],
 });
-const batSpec = (v: string, e: string, use: string, a: string, par: string, cyc: string, life: string, ip: string, extra: [string, string][] = []): SpecOverride => ({
-  description: `بطارية ليثيوم بايلونتك ${e} بجهد ${v} — سعة قابلة للاستخدام ${use}.`,
-  specs: [{ title: "المواصفات المعتمدة", rows: [["الجهد الاسمي", v], ["الطاقة الاسمية", e], ["الطاقة القابلة للاستخدام", use], ["تيار الشحن/التفريغ", a], ["أقصى ربط", par], ["دورة الحياة", cyc], ["العمر/الضمان", life], ["الحماية", ip], ...extra] }],
-});
 /** مواصفات معتمدة من العميل تحل محل مواصفات الأصناف المشابهة. */
 const SPEC_OVERRIDES: Record<string, SpecOverride> = {
   "deye-sun-7-6-12k-sg02lp1--8k": invSpec("8", "سنجل فاز", "16 kW", "4", "190 A", [["الكفاءة", "97.6%"], ["الحماية", "IP65"]]),
