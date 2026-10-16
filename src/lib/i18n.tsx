@@ -48,6 +48,9 @@ const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
   [/^تم\s*تحديث\s*حالة\s*طلبك\s*إلى\s*:\s*(.+)$/, (_, n) => `Your order status is now: ${trLine(n, "en")}`],
   [/^جميع\s*الحقوق\s*محفوظة\s*©\s*(\d+)\s*ARSH ENGINEERING$/, (_, y) => `All rights reserved © ${y} ARSH ENGINEERING`],
   [/^من\s*(\d+)\s*[اإ]لى\s*(\d+)\s*(صباحا|مساء|AM|PM)?ً?$/, (_, a, b, p) => `${a}–${b}${p ? " " + (p === "صباحا" ? "AM" : p === "مساء" ? "PM" : p) : ""}`],
+  [/^مدخل\s*MPPT\s*(\d+)$/, (_, n) => `MPPT input ${n}`],
+  [/^مقطع\s*الكابل\s*(\S+)$/, (_, n) => `Cable size ${n}`],
+  [/^—?\s*رقم\s*المخطط\s*:\s*(.+)$/, (_, n) => `— Diagram no.: ${n}`],
 ];
 
 const ZH_PATTERNS: typeof EN_PATTERNS = [
