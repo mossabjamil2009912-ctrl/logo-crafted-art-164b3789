@@ -808,7 +808,6 @@ function inverterAllowed(p: Product) {
 }
 type SpecOverride = { description: string; specs: Product["specs"]; features?: string[] };
 const W = "ضمان 30 سنة";
-const PANEL_CERTS = "IEC61215، IEC61730، ISO9001، ISO14001، ISO45001";
 const invSpec = (kw: string, phase: string, pv: string, mppt: string, chg: string, extra: [string, string][]): SpecOverride => ({
   description: `انفرتر دايا هايبرد ${kw} كيلو ${phase} — دخل ألواح حتى ${pv}، ${mppt} MPPT، شحن ${chg}.`,
   specs: [{ title: "المواصفات المعتمدة", rows: [["القدرة", `${kw} kW`], ["الطور", phase], ["أقصى دخل ألواح", pv], ["عدد MPPT", mppt], ["أقصى تيار شحن/تفريغ", chg], ...extra] }],
