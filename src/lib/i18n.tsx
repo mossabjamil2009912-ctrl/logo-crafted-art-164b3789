@@ -20,7 +20,7 @@ function prepare(source: Record<string, string>) {
   const normalized: Record<string, string> = {};
   for (const [key, value] of Object.entries(source)) normalized[norm(key)] = value;
   const words = Object.entries(normalized)
-    .filter(([key]) => key.includes(" ") || key.length >= 2)
+    .filter(([key]) => key.includes(" ") || key.length >= 3)
     .sort((a, b) => b[0].length - a[0].length)
     .map(([arabic, translated]) => [new RegExp(B + esc(arabic) + E, "g"), translated] as const);
   return { normalized, words };
@@ -47,6 +47,14 @@ const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
   [/^رقم\s*مرجع\s*العملية\s*:\s*(.+)$/, (_, n) => `Transaction reference: ${n}`],
   [/^تم\s*تحديث\s*حالة\s*طلبك\s*إلى\s*:\s*(.+)$/, (_, n) => `Your order status is now: ${trLine(n, "en")}`],
   [/^جميع\s*الحقوق\s*محفوظة\s*©\s*(\d+)\s*ARSH ENGINEERING$/, (_, y) => `All rights reserved © ${y} ARSH ENGINEERING`],
+  [/^من\s*(\d+)\s*[اإ]لى\s*(\d+)\s*(صباحا|مساء|AM|PM)?ً?$/, (_, a, b, p) => `${a}–${b}${p ? " " + (p === "صباحا" ? "AM" : p === "مساء" ? "PM" : p) : ""}`],
+  [/^مدخل\s*MPPT\s*(\d+)$/, (_, n) => `MPPT input ${n}`],
+  [/^مقطع\s*الكابل\s*(\S+)$/, (_, n) => `Cable size ${n}`],
+  [/^—?\s*رقم\s*المخطط\s*:\s*(.+)$/, (_, n) => `— Diagram no.: ${n}`],
+  [/^عدد\s*الخطوط\s*:\s*(\d+)\s*خطو?ط?$/, (_, n) => `Number of lines: ${n}`],
+  [/^عدد\s*المجموعات\s*:\s*(\d+)\s*مجموعات?$/, (_, n) => `Number of groups: ${n}`],
+  [/^صندوق\s*حماية\s*بلاستيك\s*(\d+)\s*خطو?ط?$/, (_, n) => `Plastic protection box, ${n} lines`],
+  [/^حماية\s*من\s*التيار\s*:\s*([\d.]+)\s*[اأ]مبير\s*لمدة\s*([\d.]+)\s*ملي\s*ثانية$/, (_, a, t) => `Current protection: ${a} A for ${t} ms`],
 ];
 
 const ZH_PATTERNS: typeof EN_PATTERNS = [
