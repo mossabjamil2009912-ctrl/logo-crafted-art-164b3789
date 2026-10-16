@@ -5154,5 +5154,6 @@
  "🧾 الرقم الجديد:": "🧾 New number:",
  "🧾 رقم الحوالة:": "🧾 Transfer number:",
  "🧾 رقم الفاتورة:": "🧾 Invoice number:",
- "هبوط الجهد محسوب على أطوال تصميمية نمطية (نحاس 0.0175 Ω·mm²/م) ويُراجع بعد المسح الموقعي؛ الحد المقبول 3%.": "Voltage drop is calculated on typical design lengths (copper 0.0175 Ω·mm²/m) and reviewed after the site survey; the accepted limit is 3%."
+ "هبوط الجهد محسوب على أطوال تصميمية نمطية (نحاس 0.0175 Ω·mm²/م) ويُراجع بعد المسح الموقعي؛ الحد المقبول 3%.": "Voltage drop is calculated on typical design lengths (copper 0.0175 Ω·mm²/m) and reviewed after the site survey; the accepted limit is 3%.",
+ "اسحب المخطط للتحريك، و + و − للتكبير، واضغط أي مكوّن لعرض مواصفاته، وزر الموجة لتشغيل/إيقاف حركة تدفق الطاقة، وزر الملف لتصدير DXF لأوتوكاد.": "Drag the diagram to move it, use + and − to zoom, tap any component to view its specifications, the wave button to start/stop the energy flow animation, and the file button to export DXF for AutoCAD."
 }
