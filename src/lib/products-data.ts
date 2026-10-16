@@ -809,11 +809,6 @@ function inverterAllowed(p: Product) {
 type SpecOverride = { description: string; specs: Product["specs"]; features?: string[] };
 const W = "ضمان 30 سنة";
 const PANEL_CERTS = "IEC61215، IEC61730، ISO9001، ISO14001، ISO45001";
-const panelSpec = (w: string, bus: string, eff: string, bifacial: boolean): SpecOverride => ({
-  description: `لوح سنتك ${w} وات N-Type TOPCon${bifacial ? " ثنائي الوجه" : ""} بكفاءة ${eff}.`,
-  features: [`${bus} بزار لتحسين جمع التيار`, `كفاءة ${eff}`, "إطار ألمنيوم يتحمل 5400 باسكال", W],
-  specs: [{ title: "المواصفات المعتمدة", rows: [["القدرة", `${w} W`], ["التقنية", `N-Type TOPCon${bifacial ? " ثنائي الوجه" : ""}`], ["عدد البزارات", bus], ["الكفاءة", eff], ["أقصى جهد للنظام", "1500 VDC"], ["تفاوت القدرة", "0 ~ +5%"], ["عامل الامتلاء", "0.80"], ["الإطار", "ألمنيوم — 5400 Pa"], ["الضمان", "30 سنة"], ["الشهادات", PANEL_CERTS]] }],
-});
 const invSpec = (kw: string, phase: string, pv: string, mppt: string, chg: string, extra: [string, string][]): SpecOverride => ({
   description: `انفرتر دايا هايبرد ${kw} كيلو ${phase} — دخل ألواح حتى ${pv}، ${mppt} MPPT، شحن ${chg}.`,
   specs: [{ title: "المواصفات المعتمدة", rows: [["القدرة", `${kw} kW`], ["الطور", phase], ["أقصى دخل ألواح", pv], ["عدد MPPT", mppt], ["أقصى تيار شحن/تفريغ", chg], ...extra] }],
