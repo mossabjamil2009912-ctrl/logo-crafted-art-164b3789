@@ -51,6 +51,10 @@ const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
   [/^مدخل\s*MPPT\s*(\d+)$/, (_, n) => `MPPT input ${n}`],
   [/^مقطع\s*الكابل\s*(\S+)$/, (_, n) => `Cable size ${n}`],
   [/^—?\s*رقم\s*المخطط\s*:\s*(.+)$/, (_, n) => `— Diagram no.: ${n}`],
+  [/^عدد\s*الخطوط\s*:\s*(\d+)\s*خطو?ط?$/, (_, n) => `Number of lines: ${n}`],
+  [/^عدد\s*المجموعات\s*:\s*(\d+)\s*مجموعات?$/, (_, n) => `Number of groups: ${n}`],
+  [/^صندوق\s*حماية\s*بلاستيك\s*(\d+)\s*خطو?ط?$/, (_, n) => `Plastic protection box, ${n} lines`],
+  [/^حماية\s*من\s*التيار\s*:\s*([\d.]+)\s*[اأ]مبير\s*لمدة\s*([\d.]+)\s*ملي\s*ثانية$/, (_, a, t) => `Current protection: ${a} A for ${t} ms`],
 ];
 
 const ZH_PATTERNS: typeof EN_PATTERNS = [
