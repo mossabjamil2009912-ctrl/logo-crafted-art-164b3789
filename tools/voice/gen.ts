@@ -3,7 +3,7 @@ import { PHRASES, STEP_INTROS, voiceTextFor } from "@/lib/voice-guide";
 import { applyWaqf, diacritizeNumberWords } from "@/lib/ar-lexicon";
 import { existsSync, writeFileSync, readdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-const INSTR = "اقرأ النص العربي التالي بالفصحى بأسلوب معلق مؤسسي راقٍ لكبرى شركات الطاقة العالمية، نبرة رجالية دافئة ورخيمة وواثقة، فصاحة متقنة ومخارج حروف واضحة ومريحة للأذن. التزم بالتشكيل المكتوب على كل حرف حرفياً. قف على أواخر الكلمات بالسكون قبل علامات الترقيم وفي نهاية الجملة، ولا تُشبع الحركة الأخيرة أبداً. لا تترجم ولا تضف أي كلام:";
+const INSTR = "اقرأ النص العربي التالي بالفصحى بأسلوب معلق مؤسسي راقٍ لكبرى شركات الطاقة العالمية، نبرة نسائية دافئة ورخيمة وواثقة، فصاحة متقنة ومخارج حروف واضحة ومريحة للأذن. التزم بالتشكيل المكتوب على كل حرف حرفياً. قف على أواخر الكلمات بالسكون قبل علامات الترقيم وفي نهاية الجملة، ولا تُشبع الحركة الأخيرة أبداً. لا تترجم ولا تضف أي كلام:";
 const out = "public/audio";
 const sources = [...Object.values(PHRASES), ...Object.values(STEP_INTROS)];
 const jobs = new Map<string, string>();
