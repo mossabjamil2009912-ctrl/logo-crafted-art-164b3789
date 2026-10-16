@@ -254,7 +254,6 @@ function brandLabel(b: string) {
 // شعارات المصنّعين مستخرجة من الكتالوجات الرسمية في public/catalogs.
 const MAKER_LOGOS: Record<string, string> = {
   Deye: "/brand/makers/deye.png",
-  Solis: "/brand/makers/solis.png",
 };
 
 function makerLogo(b: string) {
