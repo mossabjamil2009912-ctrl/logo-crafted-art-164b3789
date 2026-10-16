@@ -2667,7 +2667,7 @@ function LangSwitch({ always = false }: { always?: boolean }) {
     <span className={`${always ? "inline-flex" : "hidden sm:inline-flex"} items-center gap-2`}>
       <label className="inline-flex items-center gap-1.5 rounded-full bg-skyline px-3.5 py-2 text-[13px] font-bold text-skyline-foreground shadow-sm">
         <Globe className="size-5" />
-        <select value={lang} onChange={(event) => setLang(event.target.value as Lang)} aria-label="لغة الواجهة" translate="no" data-no-translate className="cursor-pointer appearance-none bg-transparent font-bold outline-none" dir="auto">
+        <select value={lang} onChange={(event) => setLang(event.target.value as Lang)} aria-label="Language" translate="no" data-no-translate className="cursor-pointer appearance-none bg-transparent font-bold outline-none" dir="auto">
           {languages.map((language) => <option key={language.id} value={language.id} translate="no" data-no-translate className="bg-card text-foreground">{language.label}</option>)}
         </select>
         <ChevronDown className="size-4 opacity-90" />
