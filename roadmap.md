@@ -32,5 +32,5 @@
 - [x] PVsyst: زوايا الميلان مع الأحمال، أول دراسة مجانية بعد 3 دقائق، الدفع عبر جيب وتأكيد الإدارة (بدون اسم الحساب)
 
 - [x] Switch narrator to a female voice (live + offline Arabic clips)
-- [ ] Remove old manufacturer pages (Pylontech/Suntech/Hithium/Lipower) — waiting: user to name the new companies
+- [x] Remove old manufacturer pages, products, videos, catalogs (Pylontech/Suntech/Hithium/Lipower)
 - [ ] English translation batch 1 (home, menus, wizard)

@@ -5,26 +5,6 @@
 import { useEffect, useState } from "react";
 
 const SPLIT_VIDEOS: Record<string, string[]> = {
-  "/videos/pylontech-home-official.mp4": [
-    "/videos/parts/pylontech-home-official.mp4.part00",
-    "/videos/parts/pylontech-home-official.mp4.part01",
-  ],
-  "/videos/pylontech-rv12314.mp4": [
-    "/videos/parts/pylontech-rv12314.mp4.part00",
-    "/videos/parts/pylontech-rv12314.mp4.part01",
-  ],
-  "/videos/suntech-stp720s-d66-nsh.mp4": [
-    "/videos/parts/suntech-stp720s-d66-nsh.mp4.part00",
-    "/videos/parts/suntech-stp720s-d66-nsh.mp4.part01",
-  ],
-  "/videos/hithium-heroee-maxpower-16.mp4": [
-    "/videos/parts/hithium-heroee-maxpower-16.mp4.part00",
-    "/videos/parts/hithium-heroee-maxpower-16.mp4.part01",
-  ],
-  "/videos/suntech-stp595s-c72-nsh.mp4": [
-    "/videos/parts/suntech-stp595s-c72-nsh.mp4.part00",
-    "/videos/parts/suntech-stp595s-c72-nsh.mp4.part01",
-  ],
 };
 
 const cache = new Map<string, string>();
