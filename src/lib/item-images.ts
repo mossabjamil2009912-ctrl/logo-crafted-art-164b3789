@@ -12,7 +12,6 @@ import p18 from "@/assets/products/p18.webp";
 import p19 from "@/assets/products/p19.webp";
 import p2 from "@/assets/products/p2.webp";
 import lithium12v314ah from "@/assets/products/lithium-12v-314ah.png.asset.json";
-import fidus16 from "@/assets/products/pylontech-fidus-battery-plus.png";
 
 /** صورة كل صنف، بحسب اسمه كما يظهر في القائمة (بدون كود الموديل بين قوسين). */
 const ITEM_IMAGES: Record<string, string> = {
@@ -32,7 +31,6 @@ const ITEM_IMAGES: Record<string, string> = {
   "بطارية ليثيوم 1.28 كيلو": p2,
   "بطارية ليثيوم 2.56 كيلو": p3,
   "بطارية ليثيوم 4 كيلو": lithium12v314ah.url,
-  "بطارية ليثيوم 16 كيلو": fidus16,
 };
 
 
