@@ -4,7 +4,7 @@ import { ShoppingCart, Download } from "lucide-react";
 // تقرير دراسة الجدوى التنفيذي — مقارنة وضع المولد فقط بالمنظومة المقترحة (شمس + تخزين)
 const PSH = 5.5, PR = 1, KWH_PER_L = 3.3, DOD = 0.9, CO2_PER_L = 2.68;
 const PV_USD_KWP = 450, BAT_USD_KWH = 300, INV_USD_KW = 150;
-const BAT_MOD = 16, RACK = 15, PANEL_W = 720;
+const BAT_MOD = 16, RACK = 15, PANEL_W = 635;
 const nf = (n: number, d = 0) => n.toLocaleString("en-US", { maximumFractionDigits: d, minimumFractionDigits: d });
 const hh = (h: number) => `${String(h % 24).padStart(2, "0")}:00`;
 const C = { sun: "#f5a01e", bat: "#15803d", gen: "#7f1d1d", load: "#e60012", grid: "#d5dae4" };
@@ -354,7 +354,7 @@ export function EcoReport({ kw, price: price0, onBuy, onEdit, onSales, system, p
           <table className="w-full text-xs">
             <thead><tr className="bg-navy text-primary-foreground"><th className="p-2 text-right">المكوّن</th><th className="p-2 text-right">الكمية / القدرة</th><th className="p-2 text-right">المواصفة الفنية</th></tr></thead>
             <tbody>{([
-              [prevSys ? "الألواح الشمسية الجديدة" : "الألواح الشمسية", prevSys ? newPanelTxt : `${d.panelLabel} — ${nf(d.kwp, 2)} kWp`, d.panels > 0 && d.kwp * 1000 / d.panels >= 700 ? "Suntech STP720S-D66/Nsh+ — N-Type TOPCon ثنائي الوجه زجاج/زجاج، كفاءة 23.2%، معامل حرارة -0.29%/°C، 2384×1303×33 مم، 37.3 كغ، ضمان 15 سنة منتج و30 سنة أداء (تدهور 0.40%/سنة)" : d.panels > 0 && Math.abs(d.kwp * 1000 / d.panels - 590) <= 10 ? "Suntech STP595S-C72/Nsh+ — N-Type TOPCon ثنائي الوجه، كفاءة حتى 23.2%، 2278×1134×30 مم، 32 كغ، ضمان 15 سنة منتج و30 سنة أداء" : "خلايا أحادية البلورة عالية الكفاءة، مقاومة للحرارة والغبار، ضمان أداء طويل الأمد"],
+              [prevSys ? "الألواح الشمسية الجديدة" : "الألواح الشمسية", prevSys ? newPanelTxt : `${d.panelLabel} — ${nf(d.kwp, 2)} kWp`, d.panels > 0 && d.kwp * 1000 / d.panels >= 610 ? "Jinko Tiger Neo JKM635N-78HL4-BDV — N-Type TOPCon ثنائي الوجه بزجاج مزدوج، 615–635W، 2465×1134×30 مم، 34.0 كغ، ضمان 12 سنة منتج و30 سنة أداء (تدهور 0.40%/سنة)" : d.panels > 0 && d.kwp * 1000 / d.panels >= 580 ? "Jinko Tiger Neo JKM600N-72HL4-(V) — N-Type TOPCon، كفاءة 23.23%، معامل حرارة -0.29%/°C، 2278×1134×30 مم، 27.0 كغ، ضمان 12 سنة منتج و30 سنة أداء" : "خلايا أحادية البلورة عالية الكفاءة، مقاومة للحرارة والغبار، ضمان أداء طويل الأمد"],
               [prevSys ? "الإنفرترات الهجينة الجديدة" : "الإنفرترات الهجينة", `${d.invN} × ${d.invBrand} ${d.unit} kW`, "تحويل نقي (Pure Sine)، متتبع MPPT متعدد، حماية من الغبار والرطوبة، مراقبة عن بعد"],
               ...(noBat ? [] : [[prevSys ? "سعة التخزين الجديدة" : "بطاريات الليثيوم", prevSys && system ? `${system.batN} ${system.batKind === "cab" ? cabWord(system.batN) : "بطارية"} ${kwhClean(system.batName, system.batUnit)} — ${nf(newBatKwh)} kWh` : `${d.batLabel} — ${nf(d.batKwh)} kWh`, `كيمياء LiFePO4 آمنة، عمق تفريغ ${DOD * 100}%، نظام إدارة بطاريات BMS ذكي`]]),
               ...(prevSys ? [
@@ -370,8 +370,8 @@ export function EcoReport({ kw, price: price0, onBuy, onEdit, onSales, system, p
           </table>
           {(() => {
             const w = d.panels > 0 ? (d.kwp * 1000) / d.panels : 0;
-            // أبعاد وأوزان رسمية من ورقة مواصفات Suntech؛ غير ذلك تقدير بالكفاءة
-            const spec = w >= 700 ? { a: 2.384 * 1.303, kg: 37.3 } : w >= 580 && w <= 600 ? { a: 2.278 * 1.134, kg: 32.0 } : { a: w / 232, kg: w / 19 };
+            // أبعاد وأوزان رسمية من ورقة مواصفات Jinko Tiger Neo؛ غير ذلك تقدير بالكفاءة
+            const spec = w >= 610 && w <= 640 ? { a: 2.465 * 1.134, kg: 34.0 } : w >= 580 && w <= 605 ? { a: 2.278 * 1.134, kg: 27.0 } : { a: w / 232, kg: w / 19 };
             const m2 = d.panels * spec.a;
             const kg = d.panels * spec.kg;
             return (

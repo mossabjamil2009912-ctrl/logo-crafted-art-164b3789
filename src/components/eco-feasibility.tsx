@@ -332,7 +332,7 @@ export function EcoSystemStudy({ onSales, onResult, resume }: { onSales?: () => 
   const cabKwh = f.bat === "HiTHIUM" ? ["112"] : f.bat === "Pylontech" ? ["260", "313"] : [];
   const fixedInv = cab && f.batKwh === "260";
   const QUICK: Partial<Record<keyof typeof f, string[]>> = {
-    panel: ["Suntech 720W", "Suntech 595W"], panelW: ["720", "595"],
+    panel: ["Jinko Tiger Neo 635W", "Jinko Tiger Neo 600W"], panelW: ["635", "600"],
     inv: ["Deye", "Solis", "Huawei"], invKw: cab && (f.batKwh === "313" || f.batKwh === "112") ? ["50", "80", "125"] : ["12", "50", "125"],
     bat: ["Pylontech", "HiTHIUM"], batKwh: cab ? cabKwh : ["5.12", "16"],
   };
@@ -389,8 +389,8 @@ export function EcoSystemStudy({ onSales, onResult, resume }: { onSales?: () => 
         <p className="text-sm font-black">بيانات المنظومة — {project}</p>
         <p className="mt-1 text-xs text-muted-foreground">اكتب مكونات منظومتك الجاهزة وتكلفتها لنحسب جدواها الاقتصادية.</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          {field("panel", "اسم اللوح", "Suntech")}
-          {field("panelW", "قدرة اللوح (W)", "720", true)}
+          {field("panel", "اسم اللوح", "Jinko Tiger Neo")}
+          {field("panelW", "قدرة اللوح (W)", "635", true)}
           {field("panelN", "عدد الألواح", "20", true)}
           {field("bat", cab ? "اسم الكابينة" : "اسم البطارية", "Pylontech", false, true)}
           {field("batKwh", cab ? "سعة الكابينة (kWh)" : "سعة البطارية (kWh)", cab ? "260" : "5", true, true)}
@@ -438,8 +438,8 @@ export function EcoSystemStudy({ onSales, onResult, resume }: { onSales?: () => 
           <div className="mt-5 rounded-md border-2 border-dashed border-primary/50 bg-background p-4">
             <p className="text-xs font-black">بيانات المنظومة السابقة <span className="font-normal text-muted-foreground">(تُدمج إنتاجيتها مع الجديدة في حساب التغطية؛ تكلفتها لا تدخل في الحسابات الاقتصادية)</span></p>
             <div className="mt-3 grid gap-3 sm:grid-cols-3">
-              {pfield("panel", "اسم اللوح", "Suntech")}
-              {pfield("panelW", "قدرة اللوح (W)", "720", true)}
+              {pfield("panel", "اسم اللوح", "Jinko Tiger Neo")}
+              {pfield("panelW", "قدرة اللوح (W)", "635", true)}
               {pfield("panelN", "عدد الألواح", "20", true)}
               {pfield("inv", "اسم الانفرتر", "Deye")}
               {pfield("invKw", "قدرة الانفرتر (kW)", "12", true)}
