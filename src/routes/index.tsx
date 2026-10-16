@@ -1,9 +1,10 @@
 import { LoadPdfImport } from "@/components/load-pdf-import";
 import { useCorporateMode } from "@/lib/corporate-mode";
 import { createFileRoute } from "@tanstack/react-router";
-import actesLogo from "@/assets/actes-logo-full.webp";
+import actesLogoAr from "@/assets/actes-logo-full.webp";
+import actesLogoEn from "@/assets/actes-logo-full-en.webp";
 import actesLogoWhite from "@/assets/actes-logo-white.webp";
-import { useLang, type Lang } from "@/lib/i18n";
+import { useLang, currentLang, type Lang } from "@/lib/i18n";
 import { SoundToggle } from "@/lib/click-sound";
 import { prepareSpeech, prepareWelcome, quoteSpeech, replaySpeech, respeakScreen, setScreenSpeech, setScreenSpeechSilently, silenceNextScreen, speakScreen, speakWelcome, studySpeech, stopSpeaking, unlockVoice, viewSpeech } from "@/lib/voice-guide";
 import { startVoiceWarmup } from "@/lib/voice-warmup";
@@ -77,7 +78,8 @@ import commercialImage from "@/assets/arsh-commercial.webp";
 import industrialImage from "@/assets/arsh-industrial.webp";
 import agricultureImage from "@/assets/arsh-agriculture.webp";
 import itemRequestImage from "@/assets/card-products.webp";
-import homeHero from "@/assets/actes-home-hero.webp";
+import homeHeroAr from "@/assets/actes-home-hero.webp";
+import homeHeroEn from "@/assets/actes-home-hero-en.webp";
 
 import refCardQuote from "@/assets/card-quote.webp";
 import refCardEnergy from "@/assets/card-energy.webp";
@@ -930,7 +932,7 @@ function AccountChoice({ onClient, onAdmin }: { onClient: () => void; onAdmin: (
       <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--sidebar)_90%,transparent)_0%,color-mix(in_oklab,var(--sidebar)_70%,transparent)_50%,color-mix(in_oklab,var(--sidebar)_94%,transparent)_100%)]" />
 
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card/95 p-7 text-center shadow-2xl backdrop-blur-sm sm:p-8">
-        <img src={actesLogo} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className="mx-auto h-16 w-auto object-contain sm:h-20" />
+        <img src={currentLang() === "ar" ? actesLogoAr : actesLogoEn} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className="mx-auto h-16 w-auto object-contain sm:h-20" />
         <p className="mt-4 text-[11px] font-black tracking-[0.3em] text-navy" dir="ltr">ARSH ENGINEERING</p>
         <h1 className="mt-2 text-xl font-black leading-8 text-foreground sm:text-2xl">عرش الهندسة للحلول التقنية الذكية</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">اختر طريقة الدخول للمتابعة</p>
@@ -1058,7 +1060,7 @@ function ClientLogin({ onSuccess, onCancel }: { onSuccess: (name: string, code: 
 
   return (
     <main className="relative grid h-dvh w-full place-items-center overflow-hidden bg-card px-6" dir="rtl">
-      <img src={homeHero} alt="" data-photo className="absolute inset-0 size-full object-cover opacity-15" />
+      <img src={currentLang() === "ar" ? homeHeroAr : homeHeroEn} alt="" data-photo className="absolute inset-0 size-full object-cover opacity-15" />
       <form onSubmit={submit} className="relative w-full max-w-md rounded-xl border border-border bg-card p-8 shadow-2xl">
         <div className="text-center">
           <div className="mx-auto grid size-14 place-items-center rounded-full bg-brand text-brand-foreground"><UserCircle className="size-7" /></div>
@@ -1270,7 +1272,7 @@ function BrandLockup() {
 function BrandMark({ compact = false, className, white = false }: { inverse?: boolean; compact?: boolean; className?: string; white?: boolean }) {
   return (
     <div className="flex items-center" aria-label="ARSH ENGINEERING">
-      <img src={white ? actesLogoWhite : actesLogo} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className={className ?? (compact ? "h-12 w-auto" : "h-16 w-auto")} />
+      <img src={white ? actesLogoWhite : currentLang() === "ar" ? actesLogoAr : actesLogoEn} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className={className ?? (compact ? "h-12 w-auto" : "h-16 w-auto")} />
     </div>
   );
 }
@@ -1445,7 +1447,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
     <div className="screen-enter flex min-h-0 w-full flex-col gap-2 lg:h-full">
       <CorporateHero />
       <section data-photo-section className="shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:flex-1 lg:max-h-[30dvh]">
-        <img src={homeHero} alt="عرش الهندسة للحلول التقنية الذكية" loading="eager" decoding="sync" fetchPriority="high" className="block aspect-[1584/672] w-full object-contain bg-background lg:h-full lg:w-full lg:aspect-auto" />
+        <img src={currentLang() === "ar" ? homeHeroAr : homeHeroEn} alt="عرش الهندسة للحلول التقنية الذكية" loading="eager" decoding="sync" fetchPriority="high" className="block aspect-[1584/672] w-full object-contain bg-background lg:h-full lg:w-full lg:aspect-auto" />
       </section>
 
 
