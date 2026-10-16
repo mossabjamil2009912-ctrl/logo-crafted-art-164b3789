@@ -55,6 +55,9 @@ const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
   [/^عدد\s*المجموعات\s*:\s*(\d+)\s*مجموعات?$/, (_, n) => `Number of groups: ${n}`],
   [/^صندوق\s*حماية\s*بلاستيك\s*(\d+)\s*خطو?ط?$/, (_, n) => `Plastic protection box, ${n} lines`],
   [/^حماية\s*من\s*التيار\s*:\s*([\d.]+)\s*[اأ]مبير\s*لمدة\s*([\d.]+)\s*ملي\s*ثانية$/, (_, a, t) => `Current protection: ${a} A for ${t} ms`],
+  [/^(≈\s*)?([\d.,]+)\s*طن$/, (_, a, n) => `${a ?? ""}${n} t`],
+  [/^(≈\s*)?([\d.,]+)\s*م²$/, (_, a, n) => `${a ?? ""}${n} m²`],
+  [/^عند\s+(.+)$/, (_, n) => `at ${n}`],
 ];
 
 const ZH_PATTERNS: typeof EN_PATTERNS = [
