@@ -33,7 +33,7 @@ const PRIORITY = [
 ];
 
 function progressKey(lang: Lang) {
-  return `actes-voice-warm-v2-${lang}`;
+  return `actes-voice-warm-v3-${lang}`;
 }
 
 function readProgress(lang: Lang) {
