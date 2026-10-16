@@ -255,10 +255,6 @@ function brandLabel(b: string) {
 const MAKER_LOGOS: Record<string, string> = {
   Deye: "/brand/makers/deye.png",
   Solis: "/brand/makers/solis.png",
-  "Li-Power": "/brand/makers/lipower.png",
-  Pylontech: "/brand/makers/pylontech.png",
-  HiTHIUM: "/brand/makers/hithium.png",
-  Suntech: "/brand/makers/suntech.png",
 };
 
 function makerLogo(b: string) {
