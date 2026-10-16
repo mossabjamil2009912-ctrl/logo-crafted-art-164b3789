@@ -442,7 +442,7 @@ function ShareSheet({ product, onClose }: { product: Product; onClose: () => voi
 
   useEffect(() => {
     let alive = true;
-    import("qrcode").then((m) => (m.default ?? m).toDataURL(url, { margin: 1, width: 420, color: { dark: "#0b2239", light: "#ffffff" } })
+    import("qrcode").then((m) => (m.default ?? m).toDataURL(url, { margin: 1, width: 420, color: { dark: "#0b2239", light: "#ffffff" } }))
       .then((d) => { if (alive) setQr(d); })
       .catch(() => { if (alive) setQr(null); });
     return () => { alive = false; };
