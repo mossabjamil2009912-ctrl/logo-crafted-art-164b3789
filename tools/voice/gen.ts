@@ -16,7 +16,7 @@ async function one(key: string, text: string) {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({ model: "google/gemini-3.1-flash-tts-preview", contents: [{ role: "user", parts: [{ text: `${INSTR} ${t}` }] }],
-      generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } } }, stream_format: "audio" }),
+      generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } }, stream_format: "audio" }),
   });
   if (!r.ok) { console.log("fail", key, r.status, (await r.text()).slice(0, 120)); return; }
   const raw = `/tmp/${key}.bin`; writeFileSync(raw, Buffer.from(await r.arrayBuffer()));

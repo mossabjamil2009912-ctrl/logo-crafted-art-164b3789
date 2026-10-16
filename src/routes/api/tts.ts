@@ -8,9 +8,9 @@ const Body = z.object({
 });
 
 const INSTRUCTIONS: Record<string, string> = {
-  ar: "اقرأ النص العربي التالي بالفصحى بأسلوب معلق مؤسسي راقٍ لكبرى شركات الطاقة العالمية، نبرة رجالية دافئة ورخيمة وواثقة، فصاحة متقنة ومخارج حروف واضحة ومريحة للأذن. التزم بالتشكيل المكتوب على كل حرف حرفياً. قف على أواخر الكلمات بالسكون قبل علامات الترقيم وفي نهاية الجملة، ولا تُشبع الحركة الأخيرة أبداً. لا تترجم ولا تضف أي كلام:",
-  en: "Say the following text in English only, in a warm, rich, confident corporate male narrator voice for a global energy company, with polished diction and natural pacing. Do not add anything else:",
-  zh: "请用标准普通话以国际能源企业官方男声旁白的风格朗读以下文字，声音温暖浑厚、自信清晰，语速自然，不要添加任何其他内容：",
+  ar: "اقرأ النص العربي التالي بالفصحى بأسلوب معلق مؤسسي راقٍ لكبرى شركات الطاقة العالمية، نبرة نسائية دافئة وناعمة وواثقة، فصاحة متقنة ومخارج حروف واضحة ومريحة للأذن. التزم بالتشكيل المكتوب على كل حرف حرفياً. قف على أواخر الكلمات بالسكون قبل علامات الترقيم وفي نهاية الجملة، ولا تُشبع الحركة الأخيرة أبداً. لا تترجم ولا تضف أي كلام:",
+  en: "Say the following text in English only, in a warm, rich, confident corporate female narrator voice for a global energy company, with polished diction and natural pacing. Do not add anything else:",
+  zh: "请用标准普通话以国际能源企业官方女声旁白的风格朗读以下文字，声音温暖浑厚、自信清晰，语速自然，不要添加任何其他内容：",
 
 };
 
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/api/tts")({
             contents: [{ role: "user", parts: [{ text: `${INSTRUCTIONS[lang]} ${text}` }] }],
             generationConfig: {
               responseModalities: ["AUDIO"],
-              speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } },
+              speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } },
             },
             stream_format: "audio",
           }),
