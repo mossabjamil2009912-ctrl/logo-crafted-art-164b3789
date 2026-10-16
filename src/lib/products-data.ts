@@ -761,42 +761,6 @@ const INVERTER_VARIANTS: Record<string, { nameBase: string; variants: VariantDef
       { key: "80K", label: "80kW", power: "80 kW", model: "SUN-80K-SG02HP3-EU-EM6" },
     ],
   },
-  "solis-s6-eh2p-5-8k": {
-    nameBase: "إنفرتر تخزين Solis ‏Split Phase",
-    variants: [
-      { key: "5K", label: "5kW", power: "5 kW", model: "S6-EH2P5K02-SV-YD-L" },
-      { key: "6K", label: "6kW", power: "6 kW", model: "S6-EH2P6K02-SV-YD-L" },
-      { key: "7.5K", label: "7.5kW", power: "7.5 kW", model: "S6-EH2P7.5K02-SV-YD-L" },
-      { key: "8K", label: "8kW", power: "8 kW", model: "S6-EH2P8K02-SV-YD-L" },
-    ],
-  },
-  "solis-s6-eh3p-12-20k-h": {
-    nameBase: "إنفرتر تخزين Solis ثلاثي الطور جهد عالٍ",
-    variants: [
-      { key: "12K", label: "12kW", power: "12 kW", model: "S6-EH3P12K-H" },
-      { key: "15K", label: "15kW", power: "15 kW", model: "S6-EH3P15K-H" },
-      { key: "20K", label: "20kW", power: "20 kW", model: "S6-EH3P20K-H" },
-    ],
-  },
-  "solis-s6-eh3p-29-9-50k-h": {
-    nameBase: "إنفرتر تخزين Solis ثلاثي الطور جهد عالٍ",
-    variants: [
-      { key: "29.9K", label: "29.9kW", power: "29.9 kW", model: "S6-EH3P29.9K-H" },
-      { key: "30K", label: "30kW", power: "30 kW", model: "S6-EH3P30K-H" },
-      { key: "40K", label: "40kW", power: "40 kW", model: "S6-EH3P40K-H" },
-      { key: "50K", label: "50kW", power: "50 kW", model: "S6-EH3P50K-H" },
-    ],
-  },
-  "solis-s6-eh3p-75-125k": {
-    nameBase: "إنفرتر تخزين Solis ثلاثي الطور جهد عالٍ",
-    variants: [
-      { key: "75K", label: "75kW", power: "75 kW", model: "S6-EH3P75K10-NV-YD-H" },
-      { key: "80K", label: "80kW", power: "80 kW", model: "S6-EH3P80K10-NV-YD-H" },
-      { key: "99.9K", label: "99.9kW", power: "99.9 kW", model: "S6-EH3P99.9K10-NV-YD-H" },
-      { key: "100K", label: "100kW", power: "100 kW", model: "S6-EH3P100K10-NV-YD-H" },
-      { key: "125K", label: "125kW", power: "125 kW", model: "S6-EH3P125K10-NV-YD-H" },
-    ],
-  },
 };
 
 const variantSlug = (key: string) => key.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -834,7 +798,6 @@ function expandProduct(base: Product): Product[] {
 /** القدرات المعروضة فقط لكل علامة في قسم الإنفرترات. */
 const INVERTER_KW_ALLOWED: Record<string, number[]> = {
   Deye: [6, 8, 12, 16, 20, 30, 50, 80, 125],
-  Solis: [6, 8, 12, 16, 20, 30, 50, 80, 125],
   "Li-Power": [1.6, 6.2],
 };
 function inverterAllowed(p: Product) {

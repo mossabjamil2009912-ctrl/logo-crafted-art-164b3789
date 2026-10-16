@@ -10,8 +10,6 @@ const AR_FILES = [
   "deye-sun-29-9-50k-sg01hp3--30k", "deye-sun-29-9-50k-sg01hp3--50k",
   "deye-sun-3-6k-sg04lp1--6k-sm2", "deye-sun-60-80k-sg02hp3--80k",
   "deye-sun-7-6-12k-sg02lp1--12k", "deye-sun-7-6-12k-sg02lp1--8k",
-  "hithium-heroee-legend-112c", "hithium-heroee-legend-112s", "hithium-heroee-neopower-4-g2", "pylontech-optimus-a300-hy", "pylontech-optimus-l260-hy", "pylontech-uf5000",
-  "suntech-stp595s-c72-nsh", "suntech-stp720s-d66-nsh",
 ];
 const AR_SET = new Set(AR_FILES);
 const arUrl = (name: string) => `/catalogs/official-ar/${name}.pdf`;
