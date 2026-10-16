@@ -2679,7 +2679,7 @@ function LangSwitch({ always = false }: { always?: boolean }) {
   );
 }
 
-function LangImg({ ar, en, ...props }: { ar: string; en: string } & React.ImgHTMLAttributes<HTMLImageElement>) {
+function LangImg({ ar, en, ...props }: { ar: string; en: string } & import("react").ImgHTMLAttributes<HTMLImageElement>) {
   const [lang] = useLang();
   return <img src={lang === "ar" ? ar : en} {...props} />;
 }
