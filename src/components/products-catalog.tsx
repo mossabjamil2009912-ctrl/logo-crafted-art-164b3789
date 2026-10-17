@@ -541,7 +541,7 @@ function ProductDetail({ product, onOpen, onBack, backLabel }: { product: Produc
             const catalogUrl = officialCatalogUrl(product, lang === "en" ? "en" : "ar");
             return catalogUrl ? (
               <button type="button" onClick={() => setViewFile({ kind: "Datasheet", label: lang === "en" ? "Official Datasheet (EN)" : "الكتالوج الرسمي (عربي)", url: catalogUrl })} className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-brand-foreground shadow-sm transition hover:opacity-90">
-                <FileText className="size-3.5" /> {lang === "en" ? "Official Datasheet (English)" : "كتالوج المنتج بالعربية"}
+                <FileText className="size-3.5" /> <span translate="no">{lang === "en" ? "Official Datasheet (English)" : translateText("كتالوج المنتج بالعربية", lang)}</span>
               </button>
             ) : null;
           })()}
@@ -700,7 +700,7 @@ function SpecsView({ product }: { product: Product }) {
           <dl className="divide-y divide-border overflow-hidden rounded-lg border border-border">
             {g.rows.map(([k, v]) => (
               <div key={k} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 px-2.5 py-1.5 text-xs odd:bg-muted/50">
-                <dt className="font-bold text-navy">{lang === "en" && product.category === "inverters" && k === "الطور" ? "Phase" : k}</dt>
+                <dt translate="no" className="font-bold text-navy">{lang === "en" && product.category === "inverters" && k === "الطور" ? "Phase" : translateText(k, lang)}</dt>
                 <dd className="text-foreground">{v}</dd>
               </div>
             ))}

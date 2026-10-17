@@ -26,3 +26,5 @@
 
 - Offline Windows build: Electron + local node-server (vite.electron.config.ts, electron/main.cjs); packaged zip is delivered via Files, not the repo (too large). Why: full offline media.
 - Fixed Arabic voice lines are pre-generated to public/audio (tools/voice/gen.ts, index.json) and played before calling /api/tts. Why: voice works offline.
+
+- Explicitly language-rendered catalog labels opt out of DOM translation; translate shared payloads before sending them, because DOM translation cannot cover clipboard or sharing data.
