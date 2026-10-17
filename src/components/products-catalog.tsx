@@ -7,6 +7,8 @@ import { isVoiceOn, isVoicePlatform, prepareSpeech, silenceNextScreen, speakScre
 import ProductVideoPlayer from "@/components/product-video";
 import { afterVideoNarration, getProductVideo, videoIntroNarration } from "@/lib/product-video";
 import { officialCatalogUrl } from "@/lib/official-catalogs";
+import { translateText, useLang } from "@/lib/i18n";
+import logoMarkEn from "@/assets/arsh-logo-mark-en.png";
 
 
 // خدمة معلوماتية فقط — لا تحتوي أي زر بيع أو ربط بمسارات عروض الأسعار.
@@ -263,13 +265,14 @@ function makerLogo(b: string) {
 }
 
 function BrandBadge({ brand, large = false }: { brand: string; large?: boolean }) {
+  const [lang] = useLang();
   const logo = makerLogo(brand);
   return (
     <span dir="ltr" className={`pointer-events-none flex w-full items-center justify-between gap-2 border-b border-border/70 bg-card ${large ? "h-14 px-3" : "h-7 px-2"}`}>
       <span className={`flex items-center font-black tracking-wide text-navy ${large ? "text-base" : "text-[10px]"}`}>
         {logo ? <img src={logo} alt={brandLabel(brand)} className={large ? "h-7 w-auto max-w-36" : "h-3.5 w-auto max-w-16"} /> : brandLabel(brand)}
       </span>
-      <img src="/brand/actes-logo-full-white.png" alt="ARSH ENGINEERING" className={large ? "h-10 w-auto" : "h-4 w-auto"} />
+      <img src={lang === "en" ? logoMarkEn : "/brand/actes-logo-full-white.png"} alt="ARSH ENGINEERING" className={large ? "h-10 w-auto" : "h-4 w-auto"} />
     </span>
   );
 }
@@ -374,8 +377,8 @@ function productUrl(id: string) {
 }
 
 function specSummaryText(product: Product) {
-  const lines = quickSpecs(product, 6).map(([k, v]) => `• ${k}: ${v}`);
-  return [`${product.name} — ${product.brand}`, `الموديل: ${product.model}`, `القدرة: ${product.power}`, "", ...lines, "", productUrl(product.id)].join("\n");
+  const lines = quickSpecs(product, 6).map(([k, v]) => `• ${translateText(k)}: ${translateText(String(v))}`);
+  return [`${translateText(product.name)} — ${product.brand}`, `${translateText("الموديل")}: ${product.model}`, `${translateText("القدرة")}: ${product.power}`, "", ...lines, "", productUrl(product.id)].join("\n");
 }
 
 /** اسم ملف نظيف للتنزيل من رابط الملف. */
@@ -445,7 +448,7 @@ function ShareSheet({ product, onClose }: { product: Product; onClose: () => voi
 
   const share = async () => {
     try {
-      if (navigator.share) await navigator.share({ title: product.name, text: summary, url });
+      if (navigator.share) await navigator.share({ title: translateText(product.name), text: summary, url });
       else window.open(`https://wa.me/?text=${encodeURIComponent(summary)}`, "_blank", "noopener");
     } catch { /* المستخدم ألغى المشاركة */ }
   };
@@ -480,6 +483,7 @@ function ShareSheet({ product, onClose }: { product: Product; onClose: () => voi
 }
 
 function ProductDetail({ product, onOpen, onBack, backLabel }: { product: Product; onOpen: (id: string) => void; onBack: () => void; backLabel?: string | undefined }) {
+  const [lang] = useLang();
   // فيديو تعريفي حقيقي داخل معرض ARSH ENGINEERING يبدأ أولاً (إن توفر لهذا الموديل)، ثم تظهر تفاصيل المنتج.
   const videoKey = product.baseId ?? product.id;
   const video = useMemo(() => getProductVideo(videoKey), [videoKey]);
@@ -534,10 +538,10 @@ function ProductDetail({ product, onOpen, onBack, backLabel }: { product: Produc
             </button>
           ) : null}
           {(() => {
-            const ar = officialCatalogUrl(product, "ar");
-            return ar ? (
-              <button type="button" onClick={() => setViewFile({ kind: "Datasheet", label: "الكتالوج الرسمي (عربي)", url: ar })} className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-brand-foreground shadow-sm transition hover:opacity-90">
-                <FileText className="size-3.5" /> كتالوج المنتج بالعربية
+            const catalogUrl = officialCatalogUrl(product, lang === "en" ? "en" : "ar");
+            return catalogUrl ? (
+              <button type="button" onClick={() => setViewFile({ kind: "Datasheet", label: lang === "en" ? "Official Datasheet (EN)" : "الكتالوج الرسمي (عربي)", url: catalogUrl })} className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-brand-foreground shadow-sm transition hover:opacity-90">
+                <FileText className="size-3.5" /> <span translate="no">{lang === "en" ? "Official Datasheet (English)" : translateText("كتالوج المنتج بالعربية", lang)}</span>
               </button>
             ) : null;
           })()}
@@ -664,6 +668,7 @@ function ProductDetail({ product, onOpen, onBack, backLabel }: { product: Produc
 
 
 function SpecsView({ product }: { product: Product }) {
+  const [lang] = useLang();
   return (
     <div className="space-y-4">
       {product.modelTable && (
@@ -695,7 +700,7 @@ function SpecsView({ product }: { product: Product }) {
           <dl className="divide-y divide-border overflow-hidden rounded-lg border border-border">
             {g.rows.map(([k, v]) => (
               <div key={k} className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-2 px-2.5 py-1.5 text-xs odd:bg-muted/50">
-                <dt className="font-bold text-navy">{k}</dt>
+                <dt translate="no" className="font-bold text-navy">{lang === "en" && product.category === "inverters" && k === "الطور" ? "Phase" : translateText(k, lang)}</dt>
                 <dd className="text-foreground">{v}</dd>
               </div>
             ))}
