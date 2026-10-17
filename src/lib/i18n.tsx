@@ -189,7 +189,29 @@ function trLine(line: string, lang: Exclude<Lang, "ar">): string {
   return lead + r + trail;
 }
 
+// الوضع الصيني: لا كتابة لاتينية لاسم الشركة أو أوصاف الشركاء الثابتة.
+const ZH_LATIN: [RegExp, string][] = [
+  [/ARSH ENGINEERING PRODUCTS/g, "阿尔什工程产品系列"],
+  [/ARSH ENGINEERING · ENERGY SYSTEMS/g, "阿尔什工程 · 能源系统"],
+  [/ARSH (ENGINEERING|SMART TECH)/gi, "阿尔什工程"],
+  [/Arsh Engineering/g, "阿尔什工程"],
+  [/^Inverters & ESS$/, "逆变器与储能系统"],
+  [/^Solar Panels$/, "光伏组件"],
+  [/^Inverters & Batteries$/, "逆变器与储能电池"],
+  [/^JinkoSolar$/, "晶科能源"],
+  [/^Felicity Solar$/, "飞利仕"],
+  [/^Deye$/, "德业"],
+];
+function zhLatin(s: string) {
+  let r = s;
+  for (const [re, v] of ZH_LATIN) r = r.replace(re, (m) => (re.source.startsWith("^") ? m.replace(m.trim(), v) : v));
+  return r;
+}
 function tr(s: string, lang: Exclude<Lang, "ar">) {
+  if (lang === "zh") return zhLatin(trCore(s, lang));
+  return trCore(s, lang);
+}
+function trCore(s: string, lang: Exclude<Lang, "ar">) {
   if (!AR.test(s)) return s;
   const t = norm(s);
   const direct = dictionaries[lang].normalized[t];
