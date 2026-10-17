@@ -15,7 +15,7 @@ import EconomicStudy from "@/components/economic-study";
 import { TeamContact, openTeamContact } from "@/components/team-contact";
 import { EcoFeasibility, EcoSystemStudy } from "@/components/eco-feasibility";
 import SldDiagram from "@/components/sld-diagram";
-import { SldCustomEntry } from "@/components/sld-custom-entry";
+import { SldCustomEntry, savedClientName } from "@/components/sld-custom-entry";
 import QuoteVariants from "@/components/quote-variants";
 import { applyVariantToSldParams, applyVariantToStudyParams, buildVariants, type VariantId } from "@/lib/system-variants";
 
@@ -113,7 +113,7 @@ import { downloadQuotePdf } from "@/lib/quote-pdf";
 import { PurchaseFlow } from "@/components/purchase-flow";
 import { NotificationsBell } from "@/components/notifications";
 import { AZIMUTH_OPTIONS } from "@/lib/pvsyst-geometry";
-import { isReleased, startStudy, usePvsystAccess, setStudyGeometry, markStudyOpened, ecoAccess } from "@/lib/pvsyst-access";
+import { isReleased, startStudy, usePvsystAccess, setStudyGeometry, markStudyOpened, ecoAccess, sldAccess } from "@/lib/pvsyst-access";
 
 // دراسة جدوى جاهزة فُتحت من الإشعارات: تُعرض نتائجها مباشرة في نفس الخطوة
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1659,11 +1659,25 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
     if (!view.study || !variant || !altered) return view.study;
     return { ...view.study, params: applyVariantToStudyParams(view.study.params, variant) };
   }, [view.study, variant, altered]);
-  const sldParams = useMemo(() => applyVariantToSldParams(rawSldParams, variant), [rawSldParams, variant]);
+  const sldParams = useMemo(() => { const p = applyVariantToSldParams(rawSldParams, variant); if (!p || p["customer_name"]) return p; const n = String(session["name"] || session["client_name"] || savedClientName() || ""); return n ? { ...p, customer_name: n } : p; }, [rawSldParams, variant, session]);
   const ecoScreen = showEco && studyView ? studyView : null;
   const studyScreen = !ecoScreen && studyFresh && showStudyOnly && studyView;
   const sldScreen = Boolean(sldParams) && showSldOnly && !studyScreen && !ecoScreen;
   useEffect(() => { window.scrollTo({ top: 0 }); document.querySelectorAll<HTMLElement>("main").forEach((m) => { m.scrollTop = 0; }); }, [Boolean(ecoScreen), Boolean(studyScreen), sldScreen]);
+  // ملحقات عرض السعر (SLD والجدوى): نفس نظام مسار الحلول — الأولى مجانية ثم 5$
+  const sldAcc = sldAccess.useAccess();
+  const sldSig = view.sld?.number ? `SLD-Q-${view.sld.number}` : "";
+  const ecoSig = view.study?.number ? `ECO-Q-${view.study.number}` : "";
+  useEffect(() => { if (sldScreen && sldSig) sldAccess.claimNow(sldSig, { number: view.sld?.number }); }, [sldScreen, sldSig, sldAcc.kind]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (ecoScreen && ecoSig) ecoAccess.claimNow(ecoSig, { number: view.study?.number }); }, [Boolean(ecoScreen), ecoSig, ecoAcc.kind]); // eslint-disable-line react-hooks/exhaustive-deps
+  const sldOwned = sldAccess.owns(sldSig) && sldAcc.kind !== undefined;
+  const ecoOwned = ecoAccess.owns(ecoSig) && ecoAcc.kind !== undefined;
+  const customerName = String(session["name"] || session["client_name"] || savedClientName() || "");
+  const customerCity = String(session["city"] || "");
+  const attachGate = (kind: "sld" | "eco", acc: typeof sldAcc) =>
+    acc.kind === "waiting" ? <StudyWaiting kind={kind} readyAt={acc.readyAt} previous onBack={onStudies} />
+    : acc.kind === "pay" || acc.kind === "review" ? <StudyPayment kind={kind} status={acc} customer={customerName} city={customerCity} />
+    : null;
 
   const hasOutputs = Boolean(view.quote || view.study || view.sld || view.specs.length);
 
@@ -1728,6 +1742,10 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
               access.kind === "pay" || access.kind === "review"
                 ? <StudyPayment status={access} customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
                 : <StudyWaiting readyAt={pendingAt} previous={access.kind === "waiting" && access.sig !== studySig} onBack={onStudies} />
+            ) : ecoScreen && !ecoOwned ? (
+              attachGate("eco", ecoAcc)
+            ) : sldScreen && !sldOwned ? (
+              attachGate("sld", sldAcc)
             ) : ecoScreen ? (
               <EconomicStudy
                 study={ecoScreen}
@@ -1780,7 +1798,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
             {view.specs.length > 0 && !view.quote && <SystemSpecs specs={view.specs} hint={[session["phase_type"], session["system_type"]].filter(Boolean).join(" ")} onOpenProduct={onOpenProduct} />}
             {quoteView && <QuoteCard quote={quoteView} />}
             {studyView && studyFresh && !showStudyOnly && <PvsystStudy study={studyView} />}
-            {view.sld && (sldParams
+            {view.sld && (sldParams && sldOwned
               ? <SldDiagram params={sldParams} number={view.sld.number} />
               : <DetailCard icon={<Network />} title="المخطط التنفيذي (SLD)" number={view.sld.number} rows={view.sld.rows} />)}
 
