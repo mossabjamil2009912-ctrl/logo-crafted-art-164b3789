@@ -113,7 +113,7 @@ import { downloadQuotePdf } from "@/lib/quote-pdf";
 import { PurchaseFlow } from "@/components/purchase-flow";
 import { NotificationsBell } from "@/components/notifications";
 import { AZIMUTH_OPTIONS } from "@/lib/pvsyst-geometry";
-import { isReleased, startStudy, usePvsystAccess, setStudyGeometry, markStudyOpened, ecoAccess } from "@/lib/pvsyst-access";
+import { isReleased, startStudy, usePvsystAccess, setStudyGeometry, markStudyOpened, ecoAccess, sldAccess } from "@/lib/pvsyst-access";
 
 // دراسة جدوى جاهزة فُتحت من الإشعارات: تُعرض نتائجها مباشرة في نفس الخطوة
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1664,6 +1664,20 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
   const studyScreen = !ecoScreen && studyFresh && showStudyOnly && studyView;
   const sldScreen = Boolean(sldParams) && showSldOnly && !studyScreen && !ecoScreen;
   useEffect(() => { window.scrollTo({ top: 0 }); document.querySelectorAll<HTMLElement>("main").forEach((m) => { m.scrollTop = 0; }); }, [Boolean(ecoScreen), Boolean(studyScreen), sldScreen]);
+  // ملحقات عرض السعر (SLD والجدوى): نفس نظام مسار الحلول — الأولى مجانية ثم 5$
+  const sldAcc = sldAccess.useAccess();
+  const sldSig = view.sld?.number ? `SLD-Q-${view.sld.number}` : "";
+  const ecoSig = view.study?.number ? `ECO-Q-${view.study.number}` : "";
+  useEffect(() => { if (sldScreen && sldSig) sldAccess.claimNow(sldSig, { number: view.sld?.number }); }, [sldScreen, sldSig, sldAcc.kind]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (ecoScreen && ecoSig) ecoAccess.claimNow(ecoSig, { number: view.study?.number }); }, [Boolean(ecoScreen), ecoSig, ecoAcc.kind]); // eslint-disable-line react-hooks/exhaustive-deps
+  const sldOwned = sldAccess.owns(sldSig) && sldAcc.kind !== undefined;
+  const ecoOwned = ecoAccess.owns(ecoSig) && ecoAcc.kind !== undefined;
+  const customerName = String(session["name"] || session["client_name"] || "");
+  const customerCity = String(session["city"] || "");
+  const attachGate = (kind: "sld" | "eco", acc: typeof sldAcc) =>
+    acc.kind === "waiting" ? <StudyWaiting kind={kind} readyAt={acc.readyAt} previous onBack={onStudies} />
+    : acc.kind === "pay" || acc.kind === "review" ? <StudyPayment kind={kind} status={acc} customer={customerName} city={customerCity} />
+    : null;
 
   const hasOutputs = Boolean(view.quote || view.study || view.sld || view.specs.length);
 

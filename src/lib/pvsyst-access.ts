@@ -130,7 +130,21 @@ function createAccess(key: string, projectType: string, itemName: string) {
   function getGeo() { load(); return state.geo; }
   function setGeo(tilt: number | null, azimuth: number) { load(); save({ ...state, geo: { tilt, azimuth } }); }
 
-  return { getAccessStatus, useAccess, getReadyStudy, useReady, isReleased, startStudy, markOpened, submitPayment, getGeo, setGeo };
+  /** هل سبق أن حُجزت هذه الدراسة/المخطط (مجاناً أو برصيد مدفوع)؟ يفتح فوراً دون انتظار. */
+  function owns(sig: string) {
+    load();
+    return Boolean(sig) && (state.released.includes(sig) || state.pending?.sig === sig);
+  }
+  /** يحجز المرة المجانية/الرصيد ويفتح مباشرة (ملحقات عرض السعر). */
+  function claimNow(sig: string, snapshot: unknown) {
+    if (owns(sig)) return true;
+    if (!startStudy(sig, snapshot)) return false;
+    load();
+    if (state.pending) save({ ...state, pending: { ...state.pending, readyAt: Date.now(), opened: true } });
+    return true;
+  }
+
+  return { getAccessStatus, useAccess, getReadyStudy, useReady, isReleased, startStudy, markOpened, submitPayment, getGeo, setGeo, owns, claimNow };
 }
 
 export type StudyKind = "pvsyst" | "eco" | "sld";
