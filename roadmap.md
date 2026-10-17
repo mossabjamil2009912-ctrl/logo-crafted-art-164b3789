@@ -1,10 +1,11 @@
 # Roadmap
 
 ## Current request: replacement offline Windows app
-- [ ] Remove all product videos and video players as requested.
-- [ ] Remove obsolete online-only desktop distribution.
-- [ ] Package local app, media and offline narration for Windows.
-- [ ] Verify offline browsing and deliver Windows ZIP.
+- [x] Remove all product videos and video players as requested.
+- [x] Remove obsolete online-only desktop distribution.
+- [x] Package local app, media and 451 offline female narration clips for Windows.
+- [x] Verify offline browsing, product photos and audio playback in all three languages; deliver Windows ZIP.
+- [ ] Complete the three fixed narration phrases rejected by the speech service (external recording-service blocker); personalized result narration remains unavailable offline.
 
 - [x] Add interactive cable cross-section selection with mm²/AWG alternatives and live recalculation.
 - [x] Add live voltage-drop status badges on SLD cable paths.
