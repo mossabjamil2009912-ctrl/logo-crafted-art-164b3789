@@ -1397,7 +1397,7 @@
  "شبكة فقط": "Grid Only",
  "شبكة كهرباء": "Grid electricity",
  "شبوة": "Shabwah",
- "شحن": "Shipping",
+ "شحن": "charge",
  "شدا": "Shada",
  "شراء مؤكد": "Confirmed Purchase",
  "شرس": "Sharass",
@@ -5438,5 +5438,7 @@
  "من": "of",
  "Suntech STP720S-D66/Nsh+ — N-Type TOPCon ثنائي الوجه زجاج/زجاج، كفاءة 23.2%، معامل حرارة -0.29%/°C، 2384×1303×33 مم، 37.3 كغ، ضمان 15 سنة منتج و30 سنة أداء (تدهور 0.40%/سنة)": "Suntech STP720S-D66/Nsh+ — N-Type TOPCon bifacial glass/glass, efficiency 23.2%, temperature coefficient -0.29%/°C, 2384×1303×33 mm, 37.3 kg, 15-year product and 30-year performance warranty (0.40%/year degradation)",
  "Jinko Tiger Neo JKM635N-78HL4-BDV — N-Type TOPCon ثنائي الوجه بزجاج مزدوج، 615–635W، 2465×1134×30 مم، 34.0 كغ، ضمان 12 سنة منتج و30 سنة أداء (تدهور 0.40%/سنة)": "Jinko Tiger Neo JKM635N-78HL4-BDV — N-Type TOPCon bifacial dual-glass, 615–635W, 2465×1134×30 mm, 34.0 kg, 12-year product and 30-year performance warranty (0.40%/year degradation)",
- "Jinko Tiger Neo JKM600N-72HL4-(V) — N-Type TOPCon، كفاءة 23.23%، معامل حرارة -0.29%/°C، 2278×1134×30 مم، 27.0 كغ، ضمان 12 سنة منتج و30 سنة أداء": "Jinko Tiger Neo JKM600N-72HL4-(V) — N-Type TOPCon, efficiency 23.23%, temperature coefficient -0.29%/°C, 2278×1134×30 mm, 27.0 kg, 12-year product and 30-year performance warranty"
+ "Jinko Tiger Neo JKM600N-72HL4-(V) — N-Type TOPCon، كفاءة 23.23%، معامل حرارة -0.29%/°C، 2278×1134×30 مم، 27.0 كغ، ضمان 12 سنة منتج و30 سنة أداء": "Jinko Tiger Neo JKM600N-72HL4-(V) — N-Type TOPCon, efficiency 23.23%, temperature coefficient -0.29%/°C, 2278×1134×30 mm, 27.0 kg, 12-year product and 30-year performance warranty",
+ "الشحن": "Charging",
+ "المقاس": "Size"
 }
