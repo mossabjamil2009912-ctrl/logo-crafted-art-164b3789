@@ -172,6 +172,7 @@ const origAttr = new WeakMap<Element, Record<string, string>>();
 const origDir = new WeakMap<Element, string>();
 
 const NO_TR = '[translate="no"],[data-no-translate]';
+const lastOut = new WeakMap<Node, string>();
 function skipTranslate(n: Node) {
   const el = n.nodeType === 1 ? (n as Element) : n.parentElement;
   return !!el?.closest?.(NO_TR);
@@ -184,11 +185,14 @@ function apply(root: Node, lang: Lang) {
     if (n.nodeType === 3) {
       const cur = n.nodeValue ?? "";
       const prev = origText.get(n);
+      // نصّ كتبناه نحن (ترجمة جزئية فيها عربي) لا يُعامل كأصل جديد، وإلا تُترجم الترجمة فتتشوّه.
+      const ours = prev !== undefined && lastOut.get(n) === cur;
       // React may have changed text; treat any Arabic text as new original
-      const orig = prev !== undefined && !AR.test(cur) && lang !== "ar" ? prev : cur;
-      if (AR.test(cur) || prev === undefined) origText.set(n, orig);
+      const orig = prev !== undefined && (ours || (!AR.test(cur) && lang !== "ar")) ? prev : cur;
+      if (!ours && (AR.test(cur) || prev === undefined)) origText.set(n, orig);
       const base = origText.get(n) ?? cur;
       const next = lang === "ar" ? base : tr(base, lang);
+      lastOut.set(n, next);
       if (next !== cur) n.nodeValue = next;
       return;
     }
