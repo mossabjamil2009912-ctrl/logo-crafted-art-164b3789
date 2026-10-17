@@ -31,10 +31,10 @@ const dictionaries = {
   zh: prepare(zhDict as Record<string, string>),
 };
 
-const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [/^(\d+)\s*موديل$/, (_: string, n: string) => `${n} ${n === "1" ? "model" : "models"}`],
+const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
+  [/^(\d+)\s*موديل$/, (_: string, n: string) => `${n} ${n === "1" ? "model" : "models"}`],
   [/^(\d+)\s*من\s*(\d+)\s*موديل$/, (_: string, a: string, b: string) => `${a} of ${b} models`],
   [/^(\d+)\s*شركات\s*مصنّعة\s*—\s*(\d+)\s*موديل$/, (_: string, a: string, b: string) => `${a} manufacturers — ${b} ${b === "1" ? "model" : "models"}`],
-  [
   [/^(?:ال)?[اإأ]نفرتر\s+([\d.]+)\s*كيلو(?:\s*وات)?$/, (_, n) => `${n} kW Inverter`],
   [/^([\d.]+)\s*كيلو\s*وات$/, (_, n) => `${n} kW`],
   [/^(\d+)\s*منظومات?\s*سكنية\s*جاهزة$/, (_, n) => `${n} Ready Residential Systems`],
