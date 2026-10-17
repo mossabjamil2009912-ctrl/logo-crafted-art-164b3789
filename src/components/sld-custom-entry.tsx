@@ -9,6 +9,11 @@ type Form = { project: string; city: string; nPan: string; wp: string; nStr: str
 
 const num = (v: string) => { const n = Number(String(v).replace(/[^\d.]/g, "")); return Number.isFinite(n) && n > 0 ? n : 0; };
 
+/** اسم العميل المسجّل في الجهاز (عند غياب الاسم من الجلسة). */
+export function savedClientName(): string {
+  try { return String(JSON.parse(localStorage.getItem("actes.client") || "{}").name || ""); } catch { return ""; }
+}
+
 /** يحوّل بيانات العميل إلى معاملات المخطط. البطاريات اختيارية. */
 export function buildCustomSldParams(f: Form, customer: string): SldParams {
   const nPan = num(f.nPan), wp = num(f.wp), nStr = Math.max(1, num(f.nStr) || 1);
@@ -22,7 +27,7 @@ export function buildCustomSldParams(f: Form, customer: string): SldParams {
     nPan, nStr, perStr: Math.round(nPan / nStr), nInv, nBat: hasBat ? nBat : 0,
     kWp: (nPan * wp) / 1000, phase3: f.phase3 || invKw * nInv > 12,
     sysMode: hasBat ? "hybrid" : "ongrid",
-    ...(customer ? { customer_name: customer } : {}), ...(f.project ? { project: f.project } : {}), ...(f.city ? { city_en: f.city } : {}),
+    ...(customer || savedClientName() ? { customer_name: customer || savedClientName() } : {}), ...(f.project ? { project: f.project } : {}), ...(f.city ? { city_en: f.city } : {}),
     ref: `ACT-SLD-${Date.now().toString().slice(-6)}`, date: new Date().toISOString().slice(0, 10),
   };
 }

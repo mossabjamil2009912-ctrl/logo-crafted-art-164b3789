@@ -15,7 +15,7 @@ import EconomicStudy from "@/components/economic-study";
 import { TeamContact, openTeamContact } from "@/components/team-contact";
 import { EcoFeasibility, EcoSystemStudy } from "@/components/eco-feasibility";
 import SldDiagram from "@/components/sld-diagram";
-import { SldCustomEntry } from "@/components/sld-custom-entry";
+import { SldCustomEntry, savedClientName } from "@/components/sld-custom-entry";
 import QuoteVariants from "@/components/quote-variants";
 import { applyVariantToSldParams, applyVariantToStudyParams, buildVariants, type VariantId } from "@/lib/system-variants";
 
@@ -1659,7 +1659,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
     if (!view.study || !variant || !altered) return view.study;
     return { ...view.study, params: applyVariantToStudyParams(view.study.params, variant) };
   }, [view.study, variant, altered]);
-  const sldParams = useMemo(() => applyVariantToSldParams(rawSldParams, variant), [rawSldParams, variant]);
+  const sldParams = useMemo(() => { const p = applyVariantToSldParams(rawSldParams, variant); if (!p || p["customer_name"]) return p; const n = String(session["name"] || session["client_name"] || savedClientName() || ""); return n ? { ...p, customer_name: n } : p; }, [rawSldParams, variant, session]);
   const ecoScreen = showEco && studyView ? studyView : null;
   const studyScreen = !ecoScreen && studyFresh && showStudyOnly && studyView;
   const sldScreen = Boolean(sldParams) && showSldOnly && !studyScreen && !ecoScreen;
@@ -1672,7 +1672,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
   useEffect(() => { if (ecoScreen && ecoSig) ecoAccess.claimNow(ecoSig, { number: view.study?.number }); }, [Boolean(ecoScreen), ecoSig, ecoAcc.kind]); // eslint-disable-line react-hooks/exhaustive-deps
   const sldOwned = sldAccess.owns(sldSig) && sldAcc.kind !== undefined;
   const ecoOwned = ecoAccess.owns(ecoSig) && ecoAcc.kind !== undefined;
-  const customerName = String(session["name"] || session["client_name"] || "");
+  const customerName = String(session["name"] || session["client_name"] || savedClientName() || "");
   const customerCity = String(session["city"] || "");
   const attachGate = (kind: "sld" | "eco", acc: typeof sldAcc) =>
     acc.kind === "waiting" ? <StudyWaiting kind={kind} readyAt={acc.readyAt} previous onBack={onStudies} />
