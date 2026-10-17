@@ -1742,6 +1742,10 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
               access.kind === "pay" || access.kind === "review"
                 ? <StudyPayment status={access} customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
                 : <StudyWaiting readyAt={pendingAt} previous={access.kind === "waiting" && access.sig !== studySig} onBack={onStudies} />
+            ) : ecoScreen && !ecoOwned ? (
+              attachGate("eco", ecoAcc)
+            ) : sldScreen && !sldOwned ? (
+              attachGate("sld", sldAcc)
             ) : ecoScreen ? (
               <EconomicStudy
                 study={ecoScreen}
@@ -1794,7 +1798,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
             {view.specs.length > 0 && !view.quote && <SystemSpecs specs={view.specs} hint={[session["phase_type"], session["system_type"]].filter(Boolean).join(" ")} onOpenProduct={onOpenProduct} />}
             {quoteView && <QuoteCard quote={quoteView} />}
             {studyView && studyFresh && !showStudyOnly && <PvsystStudy study={studyView} />}
-            {view.sld && (sldParams
+            {view.sld && (sldParams && sldOwned
               ? <SldDiagram params={sldParams} number={view.sld.number} />
               : <DetailCard icon={<Network />} title="المخطط التنفيذي (SLD)" number={view.sld.number} rows={view.sld.rows} />)}
 
