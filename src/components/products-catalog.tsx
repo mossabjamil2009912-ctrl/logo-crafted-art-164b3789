@@ -1,11 +1,10 @@
 import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from "react";
 const PdfPages = lazy(() => import("@/components/pdf-pages"));
-import { ArrowRight, Search, BatteryCharging, Check, ChevronDown, Container, Copy, Download, Eye, FileText, Gauge, Info, Layers, Link2, ListChecks, MessageCircle, Play, Share2, Sparkles, Sun, Users, Wrench, X, Zap } from "lucide-react";
+import { ArrowRight, Search, BatteryCharging, Check, ChevronDown, Container, Copy, Download, Eye, FileText, Gauge, Info, Layers, Link2, ListChecks, MessageCircle, Share2, Sparkles, Sun, Users, Wrench, X, Zap } from "lucide-react";
 import { createPortal } from "react-dom";
 import { CATEGORIES, findProduct, matchCompatibleProducts, productsByCategory, quickSpecs, type Product, type ProductCategory, type ProductFile } from "@/lib/products-data";
 import { isVoiceOn, isVoicePlatform, prepareSpeech, silenceNextScreen, speakScreen, speakScreenAfterCurrent, stopSpeaking } from "@/lib/voice-guide";
-import ProductVideoPlayer from "@/components/product-video";
-import { afterVideoNarration, getProductVideo, videoIntroNarration } from "@/lib/product-video";
+import { productBenefitNarration } from "@/lib/product-narration";
 import { officialCatalogUrl } from "@/lib/official-catalogs";
 import { translateText, useLang } from "@/lib/i18n";
 import logoMarkEn from "@/assets/arsh-logo-mark-en.png";
@@ -278,10 +277,9 @@ function BrandBadge({ brand, large = false }: { brand: string; large?: boolean }
 }
 
 function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void }) {
-  // نبدأ تحضير الشرح الصوتي قبل فتح المنتج، حتى ينطلق مع الفيديو بلا انتظار.
+  // تحضير شرح المنتج قبل فتح صورته ومواصفاته.
   const warm = () => {
-    const v = getProductVideo(product.id);
-    if (v) prepareSpeech(videoIntroNarration(product, v), true);
+    prepareSpeech(`${product.name}. ${productBenefitNarration(product).split(".")[0]}.`, true);
   };
   const arCatalog = officialCatalogUrl(product, "ar");
   const [viewAr, setViewAr] = useState(false);
@@ -484,20 +482,8 @@ function ShareSheet({ product, onClose }: { product: Product; onClose: () => voi
 
 function ProductDetail({ product, onOpen, onBack, backLabel }: { product: Product; onOpen: (id: string) => void; onBack: () => void; backLabel?: string | undefined }) {
   const [lang] = useLang();
-  // فيديو تعريفي حقيقي داخل معرض ARSH ENGINEERING يبدأ أولاً (إن توفر لهذا الموديل)، ثم تظهر تفاصيل المنتج.
-  const videoKey = product.baseId ?? product.id;
-  const video = useMemo(() => getProductVideo(videoKey), [videoKey]);
-  const [reelDone, setReelDone] = useState(!video);
-  useEffect(() => { setReelDone(!getProductVideo(videoKey)); }, [videoKey]);
-
-  // بعد الفيديو: جملة أو جملتان عن الفائدة العملية ولمن يناسب المنتج،
-  // بلا تكرار الاسم أو الموديل أو القدرة أو المواصفات التي نطقها الفيديو.
-  const afterVideoText = useMemo(() => {
-    if (video) return afterVideoNarration(product);
-    return `${product.name}. ${afterVideoNarration(product).split(".")[0]}.`;
-  }, [product, video]);
-
-  useScreenVoice(`catalog-product-${product.id}`, reelDone ? afterVideoText : "", !!video);
+  const descriptionSpeech = useMemo(() => `${product.name}. ${productBenefitNarration(product).split(".")[0]}.`, [product]);
+  useScreenVoice(`catalog-product-${product.id}`, descriptionSpeech);
   const [viewFile, setViewFile] = useState<ProductFile | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const summaryRows = useMemo(() => quickSpecs(product, 6), [product]);
@@ -506,37 +492,11 @@ function ProductDetail({ product, onOpen, onBack, backLabel }: { product: Produc
     [product],
   );
 
-  if (!reelDone && video) {
-    return (
-      <div className="screen-enter w-full space-y-4 pb-4">
-
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <BackButton onClick={onBack} label={backLabel ?? CATEGORIES.find((c) => c.id === product.category)?.title ?? "منتجاتنا"} />
-
-          <span className="text-[11px] font-black text-skyline">{product.brand}</span>
-        </div>
-        <ProductVideoPlayer
-          key={product.id}
-          video={video}
-          title={`${product.name} — ${product.model}`}
-          narration={videoIntroNarration(product, video)}
-          onFinish={() => setReelDone(true)}
-        />
-      </div>
-    );
-  }
-
-
   return (
     <div className="screen-enter w-full space-y-4 pb-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <BackButton onClick={onBack} label={backLabel ?? CATEGORIES.find((c) => c.id === product.category)?.title ?? "منتجاتنا"} />
         <div className="flex items-center gap-2">
-          {video ? (
-            <button type="button" onClick={() => setReelDone(false)} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-bold text-navy shadow-sm transition hover:bg-muted">
-              <Play className="size-3.5" /> الفيديو التعريفي
-            </button>
-          ) : null}
           {(() => {
             const catalogUrl = officialCatalogUrl(product, lang === "en" ? "en" : "ar");
             return catalogUrl ? (

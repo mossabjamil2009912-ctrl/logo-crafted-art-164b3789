@@ -1,5 +1,11 @@
 # Roadmap
 
+## Current request: replacement offline Windows app
+- [ ] Remove all product videos and video players as requested.
+- [ ] Remove obsolete online-only desktop distribution.
+- [ ] Package local app, media and offline narration for Windows.
+- [ ] Verify offline browsing and deliver Windows ZIP.
+
 - [x] Add interactive cable cross-section selection with mm²/AWG alternatives and live recalculation.
 - [x] Add live voltage-drop status badges on SLD cable paths.
 - [x] Correct animated day, night, and grid-outage energy-flow scenarios.
