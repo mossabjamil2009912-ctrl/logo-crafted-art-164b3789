@@ -5477,5 +5477,9 @@
  "انفرتر دايا هايبرد 12 كيلو سنجل فاز — دخل الواح حتى 24 kW، 3 MPPT، شحن 250 A.": "Deye 12 kW single-phase hybrid inverter — PV input up to 24 kW, 3 MPPT, 250 A charging.",
  "انفرتر دايا هايبرد 16 كيلو سنجل فاز — دخل الواح حتى 32 kW، 3 MPPT، شحن 290 A.": "Deye 16 kW single-phase hybrid inverter — PV input up to 32 kW, 3 MPPT, 290 A charging.",
  "انفرتر دايا هايبرد 20 كيلو 3 فاز 400/230V — دخل الواح حتى 40 kW، 2 MPPT، شحن 350 A.": "Deye 20 kW three-phase hybrid inverter 400/230V — PV input up to 40 kW, 2 MPPT, 350 A charging.",
- "السلامة": "Safety"
+ "السلامة": "Safety",
+ "للمنازل والمكاتب والمحلات الصغيرة ذات الأحمال أحادية الطور 6 kW، مع بطارية 48V (أو 24V لموديل 3K-24).": "For small homes, offices, and shops with 6 kW single-phase loads and a 48V battery (or 24V for the 3K-24 model).",
+ "للمنازل الكبيرة والفلل والمحلات والمكاتب ذات الأحمال أحادية الطور 8 kW.": "For large homes, villas, shops, and offices with 8 kW single-phase loads.",
+ "للمنازل الكبيرة والفلل والمحلات والمكاتب ذات الأحمال أحادية الطور 12 kW.": "For large homes, villas, shops, and offices with 12 kW single-phase loads.",
+ "للمنازل الكبيرة والفلل والمحلات والمكاتب ذات الأحمال أحادية الطور 16 kW.": "For large homes, villas, shops, and offices with 16 kW single-phase loads."
 }

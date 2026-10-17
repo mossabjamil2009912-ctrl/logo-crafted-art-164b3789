@@ -34,3 +34,7 @@
 - [x] Switch narrator to a female voice (live + offline Arabic clips)
 - [x] Remove old manufacturer pages, products, videos, catalogs (Pylontech/Suntech/Hithium/Lipower)
 - [ ] English translation batch 1 (home, menus, wizard)
+
+## Current request: inverter detail English verification
+- [ ] Correct remaining inverter suitability translations and shared summaries.
+- [ ] Recheck all 11 inverter detail pages, specifications, compatibility, sharing, and English datasheets.
