@@ -32,6 +32,9 @@ const dictionaries = {
 };
 
 const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
+  [/^(\d+)\s*موديل$/, (_: string, n: string) => `${n} ${n === "1" ? "model" : "models"}`],
+  [/^(\d+)\s*من\s*(\d+)\s*موديل$/, (_: string, a: string, b: string) => `${a} of ${b} models`],
+  [/^(\d+)\s*شركات\s*مصنّعة\s*—\s*(\d+)\s*موديل$/, (_: string, a: string, b: string) => `${a} manufacturers — ${b} ${b === "1" ? "model" : "models"}`],
   [/^(?:ال)?[اإأ]نفرتر\s+([\d.]+)\s*كيلو(?:\s*وات)?$/, (_, n) => `${n} kW Inverter`],
   [/^([\d.]+)\s*كيلو\s*وات$/, (_, n) => `${n} kW`],
   [/^(\d+)\s*منظومات?\s*سكنية\s*جاهزة$/, (_, n) => `${n} Ready Residential Systems`],
@@ -147,6 +150,8 @@ function trLine(line: string, lang: Exclude<Lang, "ar">): string {
   }
   let r = t;
   for (const [re, translated] of dictionaries[lang].words) if (AR.test(r)) r = r.replace(re, (_m, prefix) => prefix + translated);
+  // فواصل عربية بقيت داخل جملة ترجمت كلماتها كلها تُحوَّل لعلامات اللغة المختارة.
+  if (r !== t) r = r.replace(/[،؛؟]/g, (c) => PUNCT_MAP[lang][c] ?? c);
   if (import.meta.env.DEV && AR.test(r)) (window as any).__i18nMissing?.add?.(t);
   // لا شيء تُرجم: نُعيد السطر كما كتبه المستخدم (أسماء الأشخاص تبقى بهمزاتها الأصلية).
   if (r === t) return line;
