@@ -3,6 +3,7 @@ import { useCorporateMode } from "@/lib/corporate-mode";
 import { createFileRoute } from "@tanstack/react-router";
 import actesLogoAr from "@/assets/actes-logo-full.webp";
 import actesLogoEn from "@/assets/actes-logo-full-en.webp";
+import actesLogoZh from "@/assets/actes-logo-full-zh.webp";
 import actesLogoWhite from "@/assets/actes-logo-white.webp";
 import { useLang, type Lang } from "@/lib/i18n";
 import { SoundToggle } from "@/lib/click-sound";
@@ -80,6 +81,7 @@ import agricultureImage from "@/assets/arsh-agriculture.webp";
 import itemRequestImage from "@/assets/card-products.webp";
 import homeHeroAr from "@/assets/actes-home-hero.webp";
 import homeHeroEn from "@/assets/actes-home-hero-en.webp";
+import homeHeroZh from "@/assets/actes-home-hero-zh.webp";
 
 import refCardQuote from "@/assets/card-quote.webp";
 import refCardEnergy from "@/assets/card-energy.webp";
@@ -90,6 +92,7 @@ import ProductsCatalog from "@/components/products-catalog";
 import appIcon from "@/assets/arsh-app-icon.webp";
 import logoMark from "@/assets/arsh-logo-mark.webp";
 import logoMarkEn from "@/assets/arsh-logo-mark-en.png";
+import logoMarkZh from "@/assets/arsh-logo-mark-zh.png";
 import actesMark from "@/assets/actes-a-mark.webp";
 import actesWordmark from "@/assets/actes-logo-full.webp";
 
@@ -933,7 +936,7 @@ function AccountChoice({ onClient, onAdmin }: { onClient: () => void; onAdmin: (
       <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--sidebar)_90%,transparent)_0%,color-mix(in_oklab,var(--sidebar)_70%,transparent)_50%,color-mix(in_oklab,var(--sidebar)_94%,transparent)_100%)]" />
 
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card/95 p-7 text-center shadow-2xl backdrop-blur-sm sm:p-8">
-        <LangImg ar={actesLogoAr} en={actesLogoEn} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className="mx-auto h-16 w-auto object-contain sm:h-20" />
+        <LangImg ar={actesLogoAr} en={actesLogoEn} zh={actesLogoZh} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className="mx-auto h-16 w-auto object-contain sm:h-20" />
         <p className="mt-4 text-[11px] font-black tracking-[0.3em] text-navy" dir="ltr">ARSH ENGINEERING</p>
         <h1 className="mt-2 text-xl font-black leading-8 text-foreground sm:text-2xl">عرش الهندسة للحلول التقنية الذكية</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">اختر طريقة الدخول للمتابعة</p>
@@ -1061,7 +1064,7 @@ function ClientLogin({ onSuccess, onCancel }: { onSuccess: (name: string, code: 
 
   return (
     <main className="relative grid h-dvh w-full place-items-center overflow-hidden bg-card px-6" dir="rtl">
-      <LangImg ar={homeHeroAr} en={homeHeroEn} alt="" data-photo className="absolute inset-0 size-full object-cover opacity-15" />
+      <LangImg ar={homeHeroAr} en={homeHeroEn} zh={homeHeroZh} alt="" data-photo className="absolute inset-0 size-full object-cover opacity-15" />
       <form onSubmit={submit} className="relative w-full max-w-md rounded-xl border border-border bg-card p-8 shadow-2xl">
         <div className="text-center">
           <div className="mx-auto grid size-14 place-items-center rounded-full bg-brand text-brand-foreground"><UserCircle className="size-7" /></div>
@@ -1273,7 +1276,7 @@ function BrandLockup() {
 function BrandMark({ compact = false, className, white = false }: { inverse?: boolean; compact?: boolean; className?: string; white?: boolean }) {
   return (
     <div className="flex items-center" aria-label="ARSH ENGINEERING">
-      <LangImg ar={white ? actesLogoWhite : actesLogoAr} en={white ? actesLogoWhite : actesLogoEn} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className={className ?? (compact ? "h-12 w-auto" : "h-16 w-auto")} />
+      <LangImg ar={white ? actesLogoWhite : actesLogoAr} en={white ? actesLogoWhite : actesLogoEn} zh={white ? actesLogoWhite : actesLogoZh} alt="ARSH ENGINEERING — عرش الهندسة للحلول التقنية الذكية" className={className ?? (compact ? "h-12 w-auto" : "h-16 w-auto")} />
     </div>
   );
 }
@@ -1284,7 +1287,7 @@ function TopBar({ isAdmin, clientName = "", onExitAdmin, onSettings, onExit }: {
     <header className="relative grid h-[52px] shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center border-b border-border bg-background px-2 text-navy shadow-[var(--shadow-soft)] sm:h-[62px] sm:px-4 [&_button]:!text-navy [&_svg]:!text-navy">
       <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-l from-navy via-primary to-navy" />
       <div className="flex min-w-0 items-center gap-2">
-        <LangImg ar={logoMark} en={logoMarkEn} alt="ARSH ENGINEERING" className="h-[34px] w-auto shrink-0 object-contain drop-shadow-md sm:h-[42px]" />
+        <LangImg ar={logoMark} en={logoMarkEn} zh={logoMarkZh} alt="ARSH ENGINEERING" className="h-[34px] w-auto shrink-0 object-contain drop-shadow-md sm:h-[42px]" />
         <div className="min-w-0 leading-tight">
           <p className="whitespace-nowrap text-[15px] font-black text-navy sm:text-[17px]">عرش الهندسة</p>
           <p className="whitespace-nowrap text-[10px] font-black text-primary sm:text-[11px]">للحلول التقنية الذكية</p>
@@ -1448,7 +1451,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
     <div className="screen-enter flex min-h-0 w-full flex-col gap-2 lg:h-full">
       <CorporateHero />
       <section data-photo-section className="shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-sm lg:flex-1 lg:max-h-[30dvh]">
-        <LangImg ar={homeHeroAr} en={homeHeroEn} alt="عرش الهندسة للحلول التقنية الذكية" loading="eager" decoding="sync" fetchPriority="high" className="block aspect-[1584/672] w-full object-contain bg-background lg:h-full lg:w-full lg:aspect-auto" />
+        <LangImg ar={homeHeroAr} en={homeHeroEn} zh={homeHeroZh} alt="عرش الهندسة للحلول التقنية الذكية" loading="eager" decoding="sync" fetchPriority="high" className="block aspect-[1584/672] w-full object-contain bg-background lg:h-full lg:w-full lg:aspect-auto" />
       </section>
 
 
@@ -2680,7 +2683,7 @@ function LangSwitch({ always = false }: { always?: boolean }) {
   );
 }
 
-function LangImg({ ar, en, ...props }: { ar: string; en: string } & import("react").ImgHTMLAttributes<HTMLImageElement>) {
+function LangImg({ ar, en, zh, ...props }: { ar: string; en: string; zh?: string } & import("react").ImgHTMLAttributes<HTMLImageElement>) {
   const [lang] = useLang();
-  return <img src={lang === "ar" ? ar : en} {...props} />;
+  return <img src={lang === "ar" ? ar : lang === "zh" ? (zh ?? en) : en} {...props} />;
 }
