@@ -147,6 +147,8 @@ function trLine(line: string, lang: Exclude<Lang, "ar">): string {
   }
   let r = t;
   for (const [re, translated] of dictionaries[lang].words) if (AR.test(r)) r = r.replace(re, (_m, prefix) => prefix + translated);
+  // فواصل عربية بقيت داخل جملة ترجمت كلماتها كلها تُحوَّل لعلامات اللغة المختارة.
+  if (r !== t) r = r.replace(/[،؛؟]/g, (c) => PUNCT_MAP[lang][c] ?? c);
   if (import.meta.env.DEV && AR.test(r)) (window as any).__i18nMissing?.add?.(t);
   // لا شيء تُرجم: نُعيد السطر كما كتبه المستخدم (أسماء الأشخاص تبقى بهمزاتها الأصلية).
   if (r === t) return line;
