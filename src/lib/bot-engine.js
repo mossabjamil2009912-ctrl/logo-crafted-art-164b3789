@@ -3347,6 +3347,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
 
     pv_loads: 'energy_menu',
     eco_mode: 'energy_menu',
+    sld_custom: 'energy_menu',
     eco_diesel_hours: 'eco_mode',
     eco_loads_hours: 'eco_mode',
     eco_system_hours: 'eco_mode',
@@ -3675,6 +3676,8 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
       step = 'pv_loads'; response = loadsTableMsg();
     } else if (text === 'eco_study') {
       lang = 'ar'; step = 'eco_mode'; response = ecoModeMsg();
+    } else if (text === 'sld_custom') {
+      lang = 'ar'; step = 'sld_custom'; response = ' المخطط التنفيذي (SLD)\n' + SEP + '\nأدخل بيانات منظومتك ليظهر المخطط الكهربائي الأحادي._';
     } else if (text === 'team') {
       lang = 'ar'; menu_choice = '5'; step = 'sup_name';
       response = ' فريق عرش الهندسة للحلول التقنية الذكية الدعم الفني وخدمات ما بعد البيع\n' + SEP + '\nيرجى إدخال اسم العميل. إذا كان الاسم المسجل في طلبك السابق صحيحاً، يمكنك اختياره من الزر أدناه:_';
@@ -4731,6 +4734,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
       return { kind: 'buttons', buttons: [
         { id: 'pv_study', title: 'دراسة PVsyst' },
         { id: 'eco_study', title: 'دراسة الجدوى الاقتصادية' },
+        { id: 'sld_custom', title: 'المخطط التنفيذي (SLD)' },
         { id: 'team', title: 'فريق عرش الهندسة للحلول التقنية الذكية' }
       ] };
     }
