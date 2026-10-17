@@ -57,6 +57,18 @@ const EN_PATTERNS: [RegExp, string | ((...m: string[]) => string)][] = [
   [/^حماية\s*من\s*التيار\s*:\s*([\d.]+)\s*[اأ]مبير\s*لمدة\s*([\d.]+)\s*ملي\s*ثانية$/, (_, a, t) => `Current protection: ${a} A for ${t} ms`],
   [/^(≈\s*)?([\d.,]+)\s*طن$/, (_, a, n) => `${a ?? ""}${n} t`],
   [/^(≈\s*)?([\d.,]+)\s*م²$/, (_, a, n) => `${a ?? ""}${n} m²`],
+  [/^(\d+)\s*خطو?ط?$/, (_, n) => `${n} ${n === "1" ? "line" : "lines"}`],
+  [/^(\d+)\s*خلية\s*(.*)$/, (_, n, r) => `${n} cells ${r}`.trim()],
+  [/^المقاس\s*:\s*(.+)$/, (_, n) => `Size: ${trLine(n, "en")}`],
+  [/^عمق\s*تفريغ\s*(.+)$/, (_, n) => `Depth of discharge ${n}`],
+  [/^كفاءة\s*(.+)$/, (_, n) => `Efficiency ${n}`],
+  [/^قدرة\s*خرج\s*(.+)$/, (_, n) => `Output power ${n}`],
+  [/^[اأ]قصى\s*شحن\s*([\d.]+)\s*[اأ]مبير$/, (_, n) => `Max charge ${n} A`],
+  [/^التفريغ\s*الاسمي\s*([\d.]+)\s*[اأ]مبير$/, (_, n) => `Nominal discharge ${n} A`],
+  [/^نطاق\s*جهد\s*الالواح\s*:\s*(.+?)\s*فولت$/, (_, n) => `PV voltage range: ${n} V`],
+  [/^كم\s+(.+?)\s+تحتاج[؟?]?$/, (_, n) => `How many ${trLine(n, "en")} do you need?`],
+  [/^[اأ]هلا\s+([^،,]+)[،,]\s*(.+)$/, (_, n, r) => `Hello ${n}, ${trLine(r, "en")}`],
+  [/^عند\s+تاكيد\s+الفاتورة\s+(.+)$/, (_, n) => `Once the invoice is confirmed, ${trLine(n, "en")}`],
   [/^عند\s+(.+)$/, (_, n) => `at ${n}`],
 ];
 
@@ -160,6 +172,7 @@ const origAttr = new WeakMap<Element, Record<string, string>>();
 const origDir = new WeakMap<Element, string>();
 
 const NO_TR = '[translate="no"],[data-no-translate]';
+const lastOut = new WeakMap<Node, string>();
 function skipTranslate(n: Node) {
   const el = n.nodeType === 1 ? (n as Element) : n.parentElement;
   return !!el?.closest?.(NO_TR);
@@ -172,11 +185,14 @@ function apply(root: Node, lang: Lang) {
     if (n.nodeType === 3) {
       const cur = n.nodeValue ?? "";
       const prev = origText.get(n);
+      // نصّ كتبناه نحن (ترجمة جزئية فيها عربي) لا يُعامل كأصل جديد، وإلا تُترجم الترجمة فتتشوّه.
+      const ours = prev !== undefined && lastOut.get(n) === cur;
       // React may have changed text; treat any Arabic text as new original
-      const orig = prev !== undefined && !AR.test(cur) && lang !== "ar" ? prev : cur;
-      if (AR.test(cur) || prev === undefined) origText.set(n, orig);
+      const orig = prev !== undefined && (ours || (!AR.test(cur) && lang !== "ar")) ? prev : cur;
+      if (!ours && (AR.test(cur) || prev === undefined)) origText.set(n, orig);
       const base = origText.get(n) ?? cur;
       const next = lang === "ar" ? base : tr(base, lang);
+      lastOut.set(n, next);
       if (next !== cur) n.nodeValue = next;
       return;
     }
