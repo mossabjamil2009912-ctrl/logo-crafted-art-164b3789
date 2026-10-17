@@ -36,5 +36,5 @@
 - [ ] English translation batch 1 (home, menus, wizard)
 
 ## Current request: inverter detail English verification
-- [ ] Correct remaining inverter suitability translations and shared summaries.
-- [ ] Recheck all 11 inverter detail pages, specifications, compatibility, sharing, and English datasheets.
+- [x] Correct remaining inverter suitability translations and shared summaries.
+- [x] Recheck all 11 inverter detail pages, specifications, compatibility, sharing, and available English datasheets (125 kW has no attached datasheet).
