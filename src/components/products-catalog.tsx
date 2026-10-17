@@ -107,7 +107,7 @@ function CategoriesScreen({ onPick, onBack }: { onPick: (c: ProductCategory | "a
                 <span className={`grid size-8 shrink-0 place-items-center rounded-md [&_svg]:size-4 ${CAT_TONE[cat.id]}`}>{CAT_BIG_ICON[cat.id]}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[13px] font-black leading-tight text-navy lg:text-sm">{cat.title}</span>
-                  <span className="mt-0.5 block text-[10.5px] font-semibold text-muted-foreground">{items.length} موديل</span>
+                  <span className="mt-0.5 block text-[10.5px] font-semibold text-muted-foreground">{`${items.length} موديل`}</span>
                 </span>
               </span>
               <span className="grid grid-cols-3 gap-1 bg-muted/40 p-2">
@@ -186,7 +186,7 @@ function CategoryView({ category, onOpen, onBack }: { category: ProductCategory;
                 <span className="flex items-center justify-between border-t border-border/70 px-4 py-3">
                   <span className="text-lg font-black text-navy" dir="ltr">{b}</span>
                   <span className="inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1 text-xs font-bold text-brand-foreground">
-                    {list.length} موديل <ArrowRight className="size-3.5 rotate-180" />
+                    {`${list.length} موديل`} <ArrowRight className="size-3.5 rotate-180" />
                   </span>
                 </span>
               </button>
@@ -218,7 +218,7 @@ function AllProductsView({ onOpen, onBack }: { onOpen: (id: string) => void; onB
       <BackButton onClick={onBack} label="الفئات" />
       <header className="rounded-2xl bg-navy px-4 py-4 text-white shadow-sm">
         <h1 className="text-xl font-black lg:text-2xl">كل المنتجات</h1>
-        <p className="text-[12px] font-bold opacity-85">{shown.length} من {all.length} موديل</p>
+        <p className="text-[12px] font-bold opacity-85">{`${shown.length} من ${all.length} موديل`}</p>
       </header>
       <div className="relative">
         <Search className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
