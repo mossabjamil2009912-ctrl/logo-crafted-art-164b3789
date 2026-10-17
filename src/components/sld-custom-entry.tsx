@@ -18,11 +18,11 @@ export function buildCustomSldParams(f: Form, customer: string): SldParams {
   return {
     panel: { model: `PV Module ${wp} Wp`, wp },
     inv: { model: `${hasBat ? "Hybrid" : "Grid-Tie"} Inverter ${invKw} kW`, kwac: invKw },
-    bat: hasBat ? { model: `Battery ${batKwh} kWh`, kwh: batKwh } : undefined,
+    ...(hasBat ? { bat: { model: `Battery ${batKwh} kWh`, kwh: batKwh } } : {}),
     nPan, nStr, perStr: Math.round(nPan / nStr), nInv, nBat: hasBat ? nBat : 0,
     kWp: (nPan * wp) / 1000, phase3: f.phase3 || invKw * nInv > 12,
     sysMode: hasBat ? "hybrid" : "ongrid",
-    customer_name: customer || undefined, project: f.project || undefined, city_en: f.city || undefined,
+    ...(customer ? { customer_name: customer } : {}), ...(f.project ? { project: f.project } : {}), ...(f.city ? { city_en: f.city } : {}),
     ref: `ACT-SLD-${Date.now().toString().slice(-6)}`, date: new Date().toISOString().slice(0, 10),
   };
 }
