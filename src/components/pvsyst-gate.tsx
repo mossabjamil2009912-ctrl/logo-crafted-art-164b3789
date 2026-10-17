@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check, Clock, Copy, Gift, Hourglass, Wallet } from "lucide-react";
 import { JEEB_NUMBER, STUDY_PRICE_USD, studyAccess, type AccessStatus, type StudyKind } from "@/lib/pvsyst-access";
 
-const NAME: Record<StudyKind, string> = { pvsyst: "دراسة PVsyst", eco: "دراسة الجدوى الاقتصادية" };
+const NAME: Record<StudyKind, string> = { pvsyst: "دراسة PVsyst", eco: "دراسة الجدوى الاقتصادية", sld: "المخطط التنفيذي (SLD)" };
 
 function mmss(ms: number) {
   const s = Math.max(0, Math.ceil(ms / 1000));
@@ -33,7 +33,7 @@ export function StudyWaiting({ readyAt, previous, onBack, kind = "pvsyst" }: { r
 export function FreeStudyNote({ kind = "pvsyst" }: { kind?: StudyKind } = {}) {
   return (
     <p className="mb-3 flex items-center gap-2 rounded-lg border border-brand/40 bg-brand/10 px-3 py-2 text-xs font-bold text-foreground">
-      <Gift className="size-4 shrink-0 text-brand" /> لديك {NAME[kind]} واحدة مجانية — بعد إدخال البيانات تصلك الدراسة خلال 3 دقائق.
+      <Gift className="size-4 shrink-0 text-brand" /> لديك {NAME[kind]} {kind === "sld" ? "مجاني واحد — أدخل بيانات منظومتك ليظهر المخطط فوراً." : "واحدة مجانية — بعد إدخال البيانات تصلك الدراسة خلال 3 دقائق."}
     </p>
   );
 }

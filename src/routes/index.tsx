@@ -15,6 +15,7 @@ import EconomicStudy from "@/components/economic-study";
 import { TeamContact, openTeamContact } from "@/components/team-contact";
 import { EcoFeasibility, EcoSystemStudy } from "@/components/eco-feasibility";
 import SldDiagram from "@/components/sld-diagram";
+import { SldCustomEntry } from "@/components/sld-custom-entry";
 import QuoteVariants from "@/components/quote-variants";
 import { applyVariantToSldParams, applyVariantToStudyParams, buildVariants, type VariantId } from "@/lib/system-variants";
 
@@ -1687,7 +1688,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
   // شاشة عرض السعر الرسمي: أربعة أزرار مباشرة بألوان مميزة لكل خدمة
   const isQuoteActions = !sldScreen && !ecoScreen && Boolean(view.quote) && (step === "qnext_ask" || step === "res_quote_ask" || step === "com_quote_ask" || step === "agr_quote_ask" || step === "buy_ask" || (studyFresh && !showStudyOnly));
   // شاشة المخطط الكهربائي لا تطلب أي إدخال
-  const showEntry = step !== "done" && !view.quote && !view.sld && !isProjectSelection && (step in ENTRY_PROMPTS || (view.needsInput && visibleOptions.length === 0));
+  const showEntry = step !== "done" && !view.quote && !view.sld && !isProjectSelection && (step === "sld_custom" || step in ENTRY_PROMPTS || (view.needsInput && visibleOptions.length === 0));
 
 
   const submit = () => {
@@ -1804,6 +1805,8 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
                       : access.kind === "pay" || access.kind === "review"
                       ? <StudyPayment status={access} customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
                       : <>{access.kind === "free" && <FreeStudyNote />}<HourlyLoadEntry onSubmit={onPick} /></>)
+                    : step === "sld_custom"
+                    ? <SldCustomEntry customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
                     : step === "eco_system_hours"
                     ? ecoGate(<EcoSystemStudy key={resumeNow?.nonce ?? "sys"} resume={resumeNow?.data ?? null} onResult={startEco} onSales={() => onPick("team")} />)
                     : step === "eco_diesel_hours" || step === "eco_loads_hours"
@@ -1896,13 +1899,15 @@ function OptionGrid({ options, selected, projectCards = false, energyCards = fal
   // شاشة حلول الطاقة: بطاقتان عريضتان واضحتان تملآن الشاشة
   if (energyCards) {
     const energyVisual = (title: string) =>
-      /جدوى|الاقتص/.test(title)
+      /SLD|مخطط/i.test(title)
+        ? { icon: Network, subtitle: "أدخل بيانات منظومتك واحصل على المخطط الكهربائي الأحادي.", action: "صمّم المخطط", tone: "bg-skyline/15 text-skyline", ring: "hover:border-skyline" }
+        : /جدوى|الاقتص/.test(title)
         ? { icon: BadgeDollarSign, subtitle: "العائد وتوفير الديزل وفترة الاسترداد.", action: "ابدأ الدراسة", tone: "bg-energy/15 text-energy", ring: "hover:border-energy" }
         : /pvsyst|دراسة/i.test(title)
         ? { icon: LineChart, subtitle: "محاكاة إنتاجية المنظومة وأدائها على مدار العام.", action: "ابدأ الدراسة", tone: "bg-skyline/15 text-skyline", ring: "hover:border-skyline" }
         : { icon: Headphones, subtitle: "استشارة فنية أو معاينة ميدانية لموقعك.", action: "تواصل مع الفريق", tone: "bg-brand/15 text-brand", ring: "hover:border-brand" };
     return (
-      <div className="stagger-in grid gap-2.5 sm:grid-cols-3">
+      <div className="stagger-in grid gap-2.5 sm:grid-cols-2">
         {options.map((option, index) => {
           const visual = energyVisual(option.title);
           const Icon = visual.icon;

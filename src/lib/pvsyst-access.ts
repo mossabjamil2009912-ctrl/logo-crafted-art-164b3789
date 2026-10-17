@@ -12,6 +12,7 @@ export const JEEB_NUMBER = "735248111";
 export const STUDY_DELAY_MS = 3 * 60 * 1000;
 export const PVSYST_PROJECT_TYPE = "دراسة PVsyst";
 export const ECO_PROJECT_TYPE = "دراسة الجدوى الاقتصادية";
+export const SLD_PROJECT_TYPE = "المخطط التنفيذي SLD";
 
 export type Pending = { sig: string; readyAt: number; snapshot: unknown; opened: boolean };
 type AccessState = {
@@ -117,7 +118,7 @@ function createAccess(key: string, projectType: string, itemName: string) {
   }
   function submitPayment(customer: string, city: string, ref: string) {
     const order = createOrder({
-      quoteNumber: `${projectType === ECO_PROJECT_TYPE ? "EC" : "PV"}-${Date.now().toString().slice(-6)}`,
+      quoteNumber: `${projectType === ECO_PROJECT_TYPE ? "EC" : projectType === SLD_PROJECT_TYPE ? "SL" : "PV"}-${Date.now().toString().slice(-6)}`,
       customer: customer || "عميل",
       projectType,
       city,
@@ -132,11 +133,12 @@ function createAccess(key: string, projectType: string, itemName: string) {
   return { getAccessStatus, useAccess, getReadyStudy, useReady, isReleased, startStudy, markOpened, submitPayment, getGeo, setGeo };
 }
 
-export type StudyKind = "pvsyst" | "eco";
+export type StudyKind = "pvsyst" | "eco" | "sld";
 const pv = createAccess("arsh.pvsyst.access.v1", PVSYST_PROJECT_TYPE, "دراسة PVsyst لمنظومة واحدة");
 export const ecoAccess = createAccess("arsh.eco.access.v1", ECO_PROJECT_TYPE, "دراسة جدوى اقتصادية واحدة");
 export const pvsystAccess = pv;
-export const studyAccess = (kind: StudyKind) => (kind === "eco" ? ecoAccess : pv);
+export const sldAccess = createAccess("arsh.sld.access.v1", SLD_PROJECT_TYPE, "مخطط تنفيذي SLD واحد");
+export const studyAccess = (kind: StudyKind) => (kind === "eco" ? ecoAccess : kind === "sld" ? sldAccess : pv);
 
 export const getAccessStatus = pv.getAccessStatus;
 export const usePvsystAccess = pv.useAccess;

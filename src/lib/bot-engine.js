@@ -3347,6 +3347,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
 
     pv_loads: 'energy_menu',
     eco_mode: 'energy_menu',
+    sld_custom: 'energy_menu',
     eco_diesel_hours: 'eco_mode',
     eco_loads_hours: 'eco_mode',
     eco_system_hours: 'eco_mode',
@@ -3424,6 +3425,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
     if (st === 'eco_mode') { return ecoModeMsg(); }
     if (st === 'eco_diesel_hours') { return ecoHoursMsg('diesel'); }
     if (st === 'eco_system_hours') { return ecoHoursMsg('system'); }
+    if (st === 'sld_custom') { return ' المخطط التنفيذي (SLD)\n' + SEP + '\nأدخل بيانات منظومتك ليظهر المخطط الكهربائي الأحادي._'; }
     if (st === 'eco_loads_hours') { return ecoHoursMsg('loads'); }
     if (st === 'pv_sysmode') { return W(' نوع النظام\n' + SEP + '\n1 — هجين (Hybrid)\n2 — مستقل (Off-Grid)\n3 — متصل بالشبكة (On-Grid)'); }
     if (st === 'pv_study_ask') { return W(' هل ترغب بدراسة PVsyst تفصيلية؟_'); }
@@ -3525,6 +3527,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
     if (st === 'eco_mode') { return ecoModeMsg(); }
     if (st === 'eco_diesel_hours') { return ecoHoursMsg('diesel'); }
     if (st === 'eco_system_hours') { return ecoHoursMsg('system'); }
+    if (st === 'sld_custom') { return ' المخطط التنفيذي (SLD)\n' + SEP + '\nأدخل بيانات منظومتك ليظهر المخطط الكهربائي الأحادي._'; }
     if (st === 'eco_loads_hours') { return ecoHoursMsg('loads'); }
     if (st === 'pv_sysmode') { return W(' نوع النظام\n' + SEP + '\n1 — هجين (Hybrid)\n2 — مستقل (Off-Grid)\n3 — متصل بالشبكة (On-Grid)'); }
     if (st === 'pv_study_ask') { return W(' هل ترغب بدراسة PVsyst تفصيلية؟_'); }
@@ -3675,6 +3678,8 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
       step = 'pv_loads'; response = loadsTableMsg();
     } else if (text === 'eco_study') {
       lang = 'ar'; step = 'eco_mode'; response = ecoModeMsg();
+    } else if (text === 'sld_custom') {
+      lang = 'ar'; step = 'sld_custom'; response = ' المخطط التنفيذي (SLD)\n' + SEP + '\nأدخل بيانات منظومتك ليظهر المخطط الكهربائي الأحادي._';
     } else if (text === 'team') {
       lang = 'ar'; menu_choice = '5'; step = 'sup_name';
       response = ' فريق عرش الهندسة للحلول التقنية الذكية الدعم الفني وخدمات ما بعد البيع\n' + SEP + '\nيرجى إدخال اسم العميل. إذا كان الاسم المسجل في طلبك السابق صحيحاً، يمكنك اختياره من الزر أدناه:_';
@@ -3688,6 +3693,8 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
     else { response = noOpt(ecoModeMsg()); }
   } else if (step === 'eco_system_hours') {
     response = ecoHoursMsg('system');
+  } else if (step === 'sld_custom') {
+    response = ' المخطط التنفيذي (SLD)\n' + SEP + '\nأدخل بيانات منظومتك ليظهر المخطط الكهربائي الأحادي._';
   } else if (step === 'eco_diesel_hours' || step === 'eco_loads_hours') {
     // طلب عرض سعر من دراسة الجدوى: تُعتمد الأحمال الساعية وتُصمم منظومة هجينة ثم يصدر العرض الرسمي
     var _eq = String(text).indexOf('eco_quote') === 0 ? parseLoads(String(text).slice(9)) : null;
@@ -4731,6 +4738,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
       return { kind: 'buttons', buttons: [
         { id: 'pv_study', title: 'دراسة PVsyst' },
         { id: 'eco_study', title: 'دراسة الجدوى الاقتصادية' },
+        { id: 'sld_custom', title: 'المخطط التنفيذي (SLD)' },
         { id: 'team', title: 'فريق عرش الهندسة للحلول التقنية الذكية' }
       ] };
     }
@@ -4742,7 +4750,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
         backBtn()
       ] };
     }
-    if (st === 'eco_diesel_hours' || st === 'eco_loads_hours' || st === 'eco_system_hours') { return { kind: 'buttons', buttons: [ backBtn() ] }; }
+    if (st === 'eco_diesel_hours' || st === 'eco_loads_hours' || st === 'eco_system_hours' || st === 'sld_custom') { return { kind: 'buttons', buttons: [ backBtn() ] }; }
     if (st === 'quote_menu') {
       return { kind: 'buttons', buttons: [
         { id: '1', title: 'منظومة متكاملة' },
