@@ -9,14 +9,17 @@ import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  build: { outDir: "dist-electron" },
+  // Separate client output avoids copying the server/public tree back into itself.
+  build: { outDir: "dist-electron-client" },
   // طلبات العملاء تُرسل للإدارة عبر الموقع السحابي المنشور (الرابط الثابت للمشروع).
   define: {
     "import.meta.env.VITE_CLOUD_ORIGIN": JSON.stringify(
-      process.env.CLOUD_ORIGIN || "https://project--d70c63ed-340e-42b4-838f-5b0180c0f0b9.lovable.app",
+      process.env.CLOUD_ORIGIN || "https://logo-crafted-art.lovable.app",
     ),
+    "import.meta.env.VITE_OFFLINE_DESKTOP": JSON.stringify("true"),
   },
   resolve: {
+    alias: { qrcode: `${process.cwd()}/node_modules/qrcode/lib/browser.js` },
     dedupe: ["react", "react-dom", "@tanstack/react-router", "@tanstack/react-start"],
   },
   plugins: [

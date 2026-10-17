@@ -1,3 +1,0 @@
-{"applicationId":"com.arsh.desktop","version":"1.0.0","defaultMode":"window","url":"https://swift-app-downloads.lovable.app","documentRoot":"/resources/","enableServer":true,"enableNativeAPI":false,"port":0,"logging":{"enabled":false},
-"modes":{"window":{"title":"عرش الهندسة للحلول التقنية الذكية - ARSH ENGINEERING","width":1366,"height":860,"minWidth":800,"minHeight":600,"center":true,"maximize":true,"icon":"/resources/icon.png","enableInspector":false}},
-"cli":{"binaryName":"ARSH-ENGINEERING","resourcesPath":"/resources/"}}

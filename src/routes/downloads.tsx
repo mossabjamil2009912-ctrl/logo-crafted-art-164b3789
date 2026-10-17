@@ -6,12 +6,12 @@ export const Route = createFileRoute("/downloads")({
       { title: "تحميل تطبيق ARSH ENGINEERING لويندوز" },
       {
         name: "description",
-        content: "تحميل تطبيق ARSH ENGINEERING Desktop الخفيف لنظام ويندوز — أقل من 2 ميغابايت.",
+        content: "نسخة ARSH ENGINEERING لويندوز مع الصور والكتالوجات المحلية للاستخدام دون إنترنت.",
       },
       { property: "og:title", content: "تحميل تطبيق ARSH ENGINEERING لويندوز" },
       {
         property: "og:description",
-        content: "تطبيق سطح مكتب خفيف لويندوز 10 و11 بحجم أقل من 2 ميغابايت.",
+        content: "نسخة ويندوز بملفات محلية للاستخدام دون إنترنت؛ تم إيقاف النسخة القديمة المتصلة بالموقع.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -36,21 +36,13 @@ function DownloadsPage() {
         </div>
 
         <ul className="space-y-2 text-sm text-muted-foreground mb-8">
-          <li>• حجم خفيف جداً: 1.6 ميغابايت فقط — لا يحتاج تثبيت.</li>
-          <li>• يعمل على ويندوز 10 و11، ويتحدّث تلقائياً بآخر نسخة.</li>
-          <li>• الفيديوهات والكتالوجات تُفتح عبر الإنترنت عند الحاجة.</li>
+          <li>• تم إيقاف النسخة القديمة التي تحتاج اتصالًا لفتح الموقع.</li>
+          <li>• النسخة الجديدة تضم الملفات محليًا وتُسلَّم كملف مستقل.</li>
+          <li>• إرسال الطلبات ومراجعة الدفع والتواصل تحتاج اتصالًا بالإنترنت.</li>
         </ul>
 
-        <a
-          href="/downloads/ARSH-ENGINEERING-windows-x64.zip"
-          download
-          className="block text-center w-full rounded-xl bg-energy text-primary-foreground font-bold py-4 text-lg hover:opacity-90 transition"
-        >
-          تحميل التطبيق
-        </a>
-
         <p className="text-xs text-muted-foreground mt-6 text-center">
-          فُكّ ضغط الملف ثم شغّل <span className="font-mono">ArshSmartTech.exe</span>
+          بعد استلام النسخة الجديدة، فُكّ ضغط الملف كاملًا ثم شغّل <span className="font-mono">ArshSmartTech.exe</span>
         </p>
       </div>
     </main>

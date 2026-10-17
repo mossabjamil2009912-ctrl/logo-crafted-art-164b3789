@@ -2,6 +2,7 @@ import { currentLang, translateText, type Lang } from "@/lib/i18n";
 import { prepareArabicSpeech } from "@/lib/ar-lexicon";
 import { MANY_OPTIONS, OPTIONS_WORD, SCRIPTS, WELCOME } from "@/lib/voice-scripts";
 import { buildPvsystStudy } from "@/lib/pvsyst-engine";
+import { isOfflineDesktop, matchOfflineVoice, type OfflineVoicePhrase } from "@/lib/offline-voice";
 
 
 const VOICE_KEY = "actes-voice";
@@ -170,6 +171,7 @@ export function staticVoiceKey(arabic: string, lang: Lang, localized = true) {
 }
 
 let audioIndex: Promise<Set<string>> | null = null;
+let offlinePhrases: Promise<OfflineVoicePhrase[]> | null = null;
 /** قائمة الأصوات الجاهزة في /audio (تُولَّد مسبقاً لتعمل بلا إنترنت). */
 async function staticAudio(text: string, lang: Lang): Promise<string | null> {
   audioIndex ??= fetch("/audio/index.json")
@@ -177,7 +179,13 @@ async function staticAudio(text: string, lang: Lang): Promise<string | null> {
     .then((list: string[]) => new Set(list))
     .catch(() => new Set<string>());
   const key = `${lang}-${textHash(text)}`;
-  return (await audioIndex).has(key) ? `/audio/${key}.mp3` : null;
+  if ((await audioIndex).has(key)) return `/audio/${key}.mp3`;
+  if (isOfflineDesktop()) {
+    offlinePhrases ??= fetch("/audio/phrases.json").then((r) => r.ok ? r.json() : []).catch(() => []);
+    const match = matchOfflineVoice(text, lang, await offlinePhrases);
+    if (match) return `/audio/${match}.mp3`;
+  }
+  return null;
 }
 
 async function loadAudio(text: string, lang: Lang, background = false) {
@@ -196,6 +204,8 @@ async function loadAudio(text: string, lang: Lang, background = false) {
   // الأصوات الجاهزة المحفوظة داخل التطبيق تعمل بدون إنترنت.
   const local = await staticAudio(text, lang);
   if (local) return local;
+  // Desktop never waits for the hosted speech service, even on a weak connection.
+  if (isOfflineDesktop() || !navigator.onLine) return null;
 
   // صوت الشاشة المعروضة يأخذ أولوية عالية في طابور الشبكة،
   // والتحضير في الخلفية يأخذ أولوية منخفضة حتى لا يزاحمه.

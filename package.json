@@ -9,7 +9,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "build:desktop": "vite build -c vite.electron.config.ts",
-    "package:win": "npm run build:desktop && electron-packager . ArshSmartTech --platform=win32 --arch=x64 --out=desktop-release --overwrite --icon=public/brand/app-icon.ico --extra-resource=dist-electron --ignore=\"^/src\" --ignore=\"^/public\" --ignore=\"^/dist\" --ignore=\"^/dist-electron\" --ignore=\"^/desktop-release\" --ignore=\"^/node_modules\" --ignore=\"^/supabase\" --ignore=\"^/\\.\"",
+    "package:win": "bun run build:desktop && electron-packager . ArshSmartTech --platform=win32 --arch=x64 --out=/tmp/arsh-desktop/release --overwrite --icon=public/brand/app-icon.ico --extra-resource=dist-electron --ignore=\"^/(src|public|dist.*|desktop-release|node_modules|supabase|tools|\\\\.)\"",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@lovable.dev/ai-gateway": "^0.1.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.8",
