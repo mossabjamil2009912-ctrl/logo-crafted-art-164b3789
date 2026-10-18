@@ -4735,12 +4735,12 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
       ] };
     }
     if (st === 'energy_menu') {
-      return { kind: 'buttons', buttons: [
+      return { kind: 'list', button: 'اختر الخدمة', sections: [ { title: 'حلول الطاقة', rows: [
         { id: 'pv_study', title: 'دراسة PVsyst' },
         { id: 'eco_study', title: 'دراسة الجدوى الاقتصادية' },
         { id: 'sld_custom', title: 'المخطط التنفيذي (SLD)' },
         { id: 'team', title: 'فريق عرش الهندسة للحلول التقنية الذكية' }
-      ] };
+      ] } ] };
     }
     if (st === 'eco_mode') {
       return { kind: 'buttons', buttons: [
@@ -5216,7 +5216,7 @@ export function runStateMachine(__session, __parsed, __itemPrices) {
       if (ui.buttons.length < 3) { return { kind: 'buttons', buttons: ui.buttons.concat([ backStepBtn() ]) }; }
       return { kind: 'buttons', buttons: ui.buttons.slice(0, 3) };
     }
-    if (ui.kind === 'list' && (st === 'menu_sys3' || st === 'res_browse_inv' || st === 'res_browse' || st === 'res_tie')) { return ui; }
+    if (ui.kind === 'list' && (st === 'energy_menu' || st === 'menu_sys3' || st === 'res_browse_inv' || st === 'res_browse' || st === 'res_tie')) { return ui; }
     if (ui.locList) {
       var found = false, s3;
       for (s3 = 0; s3 < ui.sections.length; s3++) { if (hasBackStep(ui.sections[s3].rows)) { found = true; } }
