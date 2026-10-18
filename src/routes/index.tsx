@@ -1619,6 +1619,8 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
   useEffect(() => { setShowStudyOnly(studyFresh); }, [studyFresh, view.study?.number]);
   // دراسة الجدوى الاقتصادية: نفس نظام PVsyst (الأولى مجانية، تصل بعد 3 دقائق، ثم 5$)
   const ecoAcc = ecoAccess.useAccess();
+  const sldCustomAcc = sldAccess.useAccess();
+  const [sldCustomDone, setSldCustomDone] = useState(false);
   const [ecoStarted, setEcoStarted] = useState(false);
   useEffect(() => { setEcoStarted(false); if (ecoResume && ecoResume.step !== step) ecoResume = null; }, [step]);
   const resumeNow = ecoResume && ecoResume.step === step ? ecoResume : null;
@@ -1664,6 +1666,13 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
   const studyScreen = !ecoScreen && studyFresh && showStudyOnly && studyView;
   const sldScreen = Boolean(sldParams) && showSldOnly && !studyScreen && !ecoScreen;
   useEffect(() => { window.scrollTo({ top: 0 }); document.querySelectorAll<HTMLElement>("main").forEach((m) => { m.scrollTop = 0; }); }, [Boolean(ecoScreen), Boolean(studyScreen), sldScreen]);
+  // بعد إكمال أي دراسة: زر الرجوع يعود للشاشة الرئيسية مباشرة
+  const studyDone = Boolean(ecoScreen || studyScreen || sldScreen || sldCustomDone);
+  // الدراسة صارت مدفوعة/بانتظار: لا نعرض تعليمات تعبئة خانات غير ظاهرة
+  const sldLocked = sldCustomAcc.kind === "pay" || sldCustomAcc.kind === "review";
+  const entryLocked = (step === "pv_loads" && access.kind !== "free" && access.kind !== "credit")
+    || ((step === "eco_system_hours" || step === "eco_diesel_hours" || step === "eco_loads_hours") && !resumeNow && ecoAcc.kind !== "free" && ecoAcc.kind !== "credit")
+    || (step === "sld_custom" && sldLocked);
   // ملحقات عرض السعر (SLD والجدوى): نفس نظام مسار الحلول — الأولى مجانية ثم 5$
   const sldAcc = sldAccess.useAccess();
   const sldSig = view.sld?.number ? `SLD-Q-${view.sld.number}` : "";
@@ -1721,10 +1730,10 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
             <span className="mt-2 block h-1 w-10 rounded-full bg-brand" />
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <button type="button" onClick={() => { silenceNextScreen(); if (ecoScreen) { setShowEco(false); return; } if (sldScreen) { setShowSldOnly(false); return; } if (studyScreen) { setShowStudyOnly(false); return; } onBack(); }} title="رجوع خطوة" aria-label="رجوع خطوة" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-xs font-bold text-navy shadow-sm transition hover:bg-muted hover:border-brand hover:text-brand lg:text-sm">
+            <button type="button" onClick={() => { silenceNextScreen(); if (studyDone) { onHome(); return; } onBack(); }} title="رجوع خطوة" aria-label="رجوع خطوة" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-xs font-bold text-navy shadow-sm transition hover:bg-muted hover:border-brand hover:text-brand lg:text-sm">
               <ArrowRight className="size-4" /> رجوع
             </button>
-            {step === "done" && (
+            {(step === "done" || studyDone) && (
               <button type="button" onClick={onHome} title="العودة إلى الشاشة الرئيسية" aria-label="العودة إلى الشاشة الرئيسية" className="inline-flex items-center gap-1.5 rounded-full bg-skyline px-3 py-2 text-xs font-bold text-skyline-foreground shadow-sm transition hover:opacity-90 lg:text-sm">
                 <Home className="size-4" /> الشاشة الرئيسية
               </button>
@@ -1777,7 +1786,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
             {view.images.length > 0 && !view.quote && !isProjectSelection && <MediaGallery images={view.images} />}
 
             <div className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4">
-              {view.quote || isProjectSelection ? (
+              {view.quote || isProjectSelection || entryLocked ? (
                 <div className="min-w-0" />
               ) : (
                 <div className="min-w-0">
