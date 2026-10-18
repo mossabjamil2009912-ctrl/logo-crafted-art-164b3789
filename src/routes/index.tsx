@@ -1756,30 +1756,30 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
             ) : sldScreen && !sldOwned ? (
               attachGate("sld", sldAcc)
             ) : ecoScreen ? (
-              <EconomicStudy
+              <><EconomicStudy
                 study={ecoScreen}
                 actions={{
                   onBuy: () => onPick("buy_invoice"),
                   onSales: () => onPick("sales_contact"),
                 }}
-              />
+              /><button type="button" onClick={() => onPick("buy_invoice")} className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-energy px-4 py-3 text-sm font-black text-energy-foreground shadow-sm transition hover:opacity-90">عرض سعر للمنظومة المناسبة</button></>
             ) : sldScreen ? (
-              <SldDiagram
+              <><SldDiagram
                 params={sldParams}
                 number={view.sld?.number}
                 actions={{
                   onBuy: () => onPick("buy_invoice"),
                   onSales: () => onPick("sales_contact"),
                 }}
-              />
+              /><button type="button" onClick={() => onPick("buy_invoice")} className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-energy px-4 py-3 text-sm font-black text-energy-foreground shadow-sm transition hover:opacity-90">عرض سعر للمنظومة المناسبة</button></>
             ) : studyScreen ? (
-              <PvsystStudy
+              <><PvsystStudy
                 study={studyScreen}
                 actions={{
                   onBuy: () => onPick("buy_invoice"),
                   onSales: () => onPick("sales_contact"),
                 }}
-              />
+              /><button type="button" onClick={() => onPick("buy_invoice")} className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-energy px-4 py-3 text-sm font-black text-energy-foreground shadow-sm transition hover:opacity-90">عرض سعر للمنظومة المناسبة</button></>
             ) : (
 
               <>
