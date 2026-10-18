@@ -32,7 +32,7 @@ export function buildCustomSldParams(f: Form, customer: string): SldParams {
   };
 }
 
-export function SldCustomEntry({ customer, city }: { customer: string; city: string }) {
+export function SldCustomEntry({ customer, city, onDone }: { customer: string; city: string; onDone?: () => void }) {
   const access = sldAccess.useAccess();
   const [f, setF] = useState<Form>({ project: "", city, nPan: "", wp: "", nStr: "", nInv: "1", invKw: "", nBat: "", batKwh: "", phase3: false });
   const [params, setParams] = useState<SldParams | null>(null);
@@ -55,6 +55,7 @@ export function SldCustomEntry({ customer, city }: { customer: string; city: str
     if (access.kind === "waiting" || !sldAccess.startStudy(p.ref || "SLD", p)) return;
     sldAccess.markOpened();
     setParams(p);
+    onDone?.();
   };
 
   return (

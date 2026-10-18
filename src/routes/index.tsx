@@ -1833,7 +1833,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
                       ? <StudyPayment status={access} customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
                       : <>{access.kind === "free" && <FreeStudyNote />}<HourlyLoadEntry onSubmit={onPick} /></>)
                     : step === "sld_custom"
-                    ? <SldCustomEntry customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
+                    ? <SldCustomEntry onDone={() => setSldCustomDone(true)} customer={String(session["name"] || session["client_name"] || "")} city={String(session["city"] || "")} />
                     : step === "eco_system_hours"
                     ? ecoGate(<EcoSystemStudy key={resumeNow?.nonce ?? "sys"} resume={resumeNow?.data ?? null} onResult={startEco} onSales={() => onPick("team")} />)
                     : step === "eco_diesel_hours" || step === "eco_loads_hours"
