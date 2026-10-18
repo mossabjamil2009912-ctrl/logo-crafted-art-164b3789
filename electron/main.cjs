@@ -55,6 +55,8 @@ async function startServer() {
   process.env.HOST = "127.0.0.1";
   process.env.NITRO_PORT = String(port);
   process.env.NITRO_HOST = "127.0.0.1";
+  // Offline admin login: the package ships only a SHA-256 hash, never the password.
+  try { process.env.ADMIN_PASSWORD_SHA256 = fs.readFileSync(path.join(serverDir, "admin.sha256"), "utf8").trim(); } catch {}
   process.chdir(serverDir);
   await import(require("node:url").pathToFileURL(path.join(serverDir, "server", "index.mjs")).href);
   await waitForServer();
